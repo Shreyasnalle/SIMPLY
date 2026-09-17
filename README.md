@@ -73,7 +73,7 @@ To test changes to the browser extension:
 
 ### 5. Make a Pull Request
 
-Create a new branch for your feature, commit your code and push it to your fork. Then open a pull request on the main repository at [https://github.com/Shreyasnalle/SIMPLY](https://github.com/Shreyasnalle/SIMPLY). We will review it as soon as possible.
+Create a new branch for your feature, commit your code and push it to your fork. Then open a pull request on the main repository at [https://github.com/Shreyasnalle/SIMPLY](https://github.com/Shreyasnalle/SIMPLY). We will review it as soon as possible. Long time no see, will be adding cool genai stuff into this project, integrating video + captions + description + title RAG. Integrating PDF, doc and excel provider. Agentic RAG. NotebookLLM. So basically, it will be a overall project specifically for education which will have genai + agenticai.
 
 ## License
 
