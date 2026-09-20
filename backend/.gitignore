@@ -4,3 +4,5 @@ __pycache__/
 *.pyc
 supabase_key.env
 raw_captions/
+.otp_cache.json
+*.env

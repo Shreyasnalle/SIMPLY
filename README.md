@@ -59,7 +59,7 @@ uvicorn main:app --reload --port 8000
 The web app is built with Next.js, React, TypeScript, and Tailwind CSS. Navigate to the frontend code directory, install the packages and run the development server.
 
 ```bash
-cd ../frontend/frontend_code
+cd ../frontend
 npm install
 npm run dev
 ```
