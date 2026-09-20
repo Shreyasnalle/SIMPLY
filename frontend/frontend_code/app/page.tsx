@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import DotGridBackground from '@/components/DotGridBackground';
-import PricingVisual from '@/components/PricingVisual';
 
 export default function LandingPage() {
   const [activeHighlight, setActiveHighlight] = useState<string | null>(null);
