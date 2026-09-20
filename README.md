@@ -9,12 +9,12 @@ The architecture is split into three main parts: the browser extension, the back
 1. **Browser Extension:** Built with Manifest V3. When you open a YouTube video, the content scripts extract the raw caption data directly from the page. You can open the extension popup to ask a question or request a summary.
 2. **Backend API:** A fast Python backend built with FastAPI. It receives the captions, chunks them up and generates vector embeddings using the Hugging Face Inference API (specifically the `BAAI/bge-small-en-v1.5` model). These embeddings are injected into a PostgreSQL database powered by Supabase and `pgvector`.
 3. **RAG Pipeline:** When you ask a question, the backend embeds your query, runs a similarity search against the video chunks in the database and sends the most relevant context to the Groq API. Groq then streams back a lightning-fast response based strictly on the video content.
-4. **Web Frontend:** A sleek React web app built with Vite that handles user authentication, account management and settings.
+4. **Web Frontend:** A sleek Next.js web app built with React, TypeScript, and Tailwind CSS that handles user authentication, account management, settings, and feature guides.
 
 ## Tech Stack
 
-- **Frontend:** React, Vite and CSS
-- **Extension:** JavaScript and Manifest V3
+- **Frontend:** Next.js (App Router), React, TypeScript, and Tailwind CSS
+- **Extension:** JavaScript, CSS, HTML and Manifest V3
 - **Backend:** Python, FastAPI and Uvicorn
 - **Database:** Supabase (PostgreSQL with `pgvector`)
 - **AI Models:** Groq API (LLM generation) and Hugging Face (Embeddings)
@@ -56,7 +56,7 @@ uvicorn main:app --reload --port 8000
 
 ### 3. Set up the Frontend
 
-The web app is built with React and Vite. Navigate to the frontend code directory, install the packages and run the development server.
+The web app is built with Next.js, React, TypeScript, and Tailwind CSS. Navigate to the frontend code directory, install the packages and run the development server.
 
 ```bash
 cd ../frontend/frontend_code

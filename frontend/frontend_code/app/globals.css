@@ -1,0 +1,106 @@
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,800,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0d1f1c;
+  --foreground: #fb8569;
+}
+
+* {
+  font-family: 'Satoshi', sans-serif;
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: #0d1f1c;
+  color: #fb8569;
+  min-height: 100vh;
+}
+
+/* Custom UI Components using Tailwind-friendly styles */
+@layer components {
+  .btn-sweep {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.25rem;
+    color: #0d1f1c;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    background-color: transparent;
+    transition: color 0.3s ease;
+    cursor: pointer;
+    isolation: isolate;
+  }
+
+  .btn-sweep::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: #fb8569;
+    z-index: -1;
+    transform-origin: bottom;
+    transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+  }
+
+  .btn-sweep:hover {
+    color: #fb8569;
+  }
+
+  .btn-sweep:hover::before {
+    transform: scaleY(0);
+  }
+
+  .btn-sweep:active {
+    border: 1.5px solid #fb8569;
+  }
+
+  .btn-sweep:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .input-field {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(251, 133, 105, 0.3);
+    border-radius: 0.375rem;
+    color: #fb8569;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+
+  .input-field:focus {
+    border-color: #fb8569;
+  }
+
+  .input-field::placeholder {
+    color: rgba(251, 133, 105, 0.5);
+  }
+
+  .step-card {
+    background-color: rgba(255, 255, 255, 0.015);
+    border: 1.5px solid rgba(251, 133, 105, 0.15);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .step-card:hover {
+    border-color: rgba(251, 133, 105, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  }
+}

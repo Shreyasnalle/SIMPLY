@@ -23,7 +23,8 @@ app.add_middleware(
         "https://simply-rouge.vercel.app",
         "https://www.youtube.com",
         "https://youtube.com",
-        "http://localhost:5173"
+        "http://localhost:5173",
+        "http://localhost:3000"
     ],
     allow_origin_regex = r"^(chrome-extension://.*|https://.*\.vercel\.app)$",
     allow_credentials=True,
