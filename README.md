@@ -11,6 +11,10 @@ The architecture is split into three main parts: the browser extension, the back
 3. **RAG Pipeline:** When you ask a question, the backend embeds your query, runs a similarity search against the video chunks in the database and sends the most relevant context to the Groq API. Groq then streams back a lightning-fast response based strictly on the video content.
 4. **Web Frontend:** A sleek Next.js web app built with React, TypeScript, and Tailwind CSS that handles user authentication, account management, settings, and feature guides.
 
+## Agentic RAG Workflow
+
+![Agentic RAG Workflow](assets/agentic_rag_workflow.png)
+
 ## Tech Stack
 
 - **Frontend:** Next.js (App Router), React, TypeScript, and Tailwind CSS
