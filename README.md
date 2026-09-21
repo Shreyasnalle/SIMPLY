@@ -13,7 +13,7 @@ The architecture is split into three main parts: the browser extension, the back
 
 ## Agentic RAG Workflow
 
-![Agentic RAG Workflow](assets/agentic_rag_workflow.png)
+![Agentic RAG Workflow](assets/workflow.png)
 
 ## Tech Stack
 
