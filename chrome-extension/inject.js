@@ -7,6 +7,83 @@
     const originalXHR = window.XMLHttpRequest.prototype.open;
     let spaLastFetchedVideoId = null;
 
+    function getVideoMetadata() {
+        let title = "";
+        let description = "";
+
+        // 1. From ytInitialPlayerResponse (fastest and contains full unshortened description)
+        try {
+            if (window.ytInitialPlayerResponse?.videoDetails) {
+                title = window.ytInitialPlayerResponse.videoDetails.title || "";
+                description = window.ytInitialPlayerResponse.videoDetails.shortDescription || "";
+            }
+        } catch (e) {}
+
+        // 2. From movie_player
+        if (!title || !description) {
+            try {
+                const mp = document.getElementById("movie_player");
+                if (mp) {
+                    if (!title && typeof mp.getVideoData === "function") {
+                        const data = mp.getVideoData();
+                        if (data?.title) title = data.title;
+                    }
+                    if (typeof mp.getPlayerResponse === "function") {
+                        const resp = mp.getPlayerResponse();
+                        if (!title && resp?.videoDetails?.title) title = resp.videoDetails.title;
+                        if (!description && resp?.videoDetails?.shortDescription) description = resp.videoDetails.shortDescription;
+                    }
+                }
+            } catch (e) {}
+        }
+
+        // 3. From ytd-watch-flexy
+        if (!title || !description) {
+            try {
+                const flexy = document.querySelector("ytd-watch-flexy");
+                if (flexy?.playerData?.videoDetails) {
+                    if (!title) title = flexy.playerData.videoDetails.title || "";
+                    if (!description) description = flexy.playerData.videoDetails.shortDescription || "";
+                }
+            } catch (e) {}
+        }
+
+        // 4. Fallback from ytplayer config args
+        if (!title || !description) {
+            try {
+                const rawResp = window.ytplayer?.config?.args?.raw_player_response;
+                const parsed = typeof rawResp === "string" ? JSON.parse(rawResp) : rawResp;
+                if (parsed?.videoDetails) {
+                    if (!title) title = parsed.videoDetails.title || "";
+                    if (!description) description = parsed.videoDetails.shortDescription || "";
+                }
+            } catch (e) {}
+        }
+
+        // 5. Fallback from DOM elements
+        if (!title) {
+            try {
+                const titleEl = document.querySelector("h1.ytd-watch-metadata yt-formatted-string, #title h1 yt-formatted-string, ytd-watch-metadata h1");
+                if (titleEl && titleEl.textContent) {
+                    title = titleEl.textContent.trim();
+                } else if (document.title) {
+                    title = document.title.replace(/ - YouTube$/, "").trim();
+                }
+            } catch (e) {}
+        }
+
+        if (!description) {
+            try {
+                const descEl = document.querySelector("#description-inline-expander yt-attributed-string, #description yt-formatted-string, ytd-text-inline-expander#description-inline-expander");
+                if (descEl && descEl.textContent) {
+                    description = descEl.textContent.trim();
+                }
+            } catch (e) {}
+        }
+
+        return { title, description };
+    }
+
     function dispatchCaptions(videoUrl, trackUrl, rawText) {
         if (!rawText || rawText.length < 30) return;
         const videoIdMatch = videoUrl.match(/[?&]v=([^&]+)/);
@@ -14,12 +91,16 @@
         if (!videoId) return;
 
         spaLastFetchedVideoId = videoId;
+        const metadata = getVideoMetadata();
+
         window.dispatchEvent(
             new CustomEvent("captions intercepted", {
                 detail: {
                     sourceurl: `https://www.youtube.com/watch?v=${videoId}`,
                     trackurl: trackUrl || "",
-                    body: rawText
+                    body: rawText,
+                    title: metadata.title || "",
+                    description: metadata.description || ""
                 }
             })
         );
