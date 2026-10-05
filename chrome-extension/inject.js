@@ -29,9 +29,9 @@
                 detail: {
                     sourceurl: `https://www.youtube.com/watch?v=${videoId}`,
                     trackurl: trackUrl || "",
-                    body: rawText,
                     title: metadata.title,
-                    description: metadata.description
+                    description: metadata.description,
+                    body: rawText
                 }
             })
         );
