@@ -173,3 +173,58 @@ window.addEventListener("yt-navigate-finish", () => {
 ```
 * **Purpose:** YouTube does not trigger a full page reload when a user clicks a recommended video; it dispatches `yt-navigate-finish`.
 * **Action:** Resets `spaLastFetchedVideoId` so that caption interception and metadata collection immediately activate for the newly loaded video.
+
+---
+
+## 4. CONTENT (bridging intercepted events to the extension runtime)
+
+This section specifies the implementation of `content.js`.
+
+### 4.1. Execution Context
+* **Execution World:** `ISOLATED` (default content script world).
+* **Role:** Acts strictly as the secure event bridge between the page DOM and Chrome's extension messaging bus (`chrome.runtime`).
+* **Design Rule:** No DOM scraping, no redundant fallbacks, and no data transformations. It strictly forwards what `inject.js` captured.
+
+### 4.2. Implementation & Flow
+```javascript
+function isWatchPage() {
+    return window.location.pathname === "/watch" && window.location.search.includes("v=");
+}
+
+let lastSentVideoId = null;
+
+window.addEventListener("captions intercepted", (event) => {
+    if (!isWatchPage()) return;
+
+    const detail = event.detail;
+    if (!detail || !detail.body || detail.body.length < 30) return;
+
+    const vidMatch = (detail.sourceurl || "").match(/[?&]v=([^&]+)/);
+    const videoId = vidMatch ? vidMatch[1] : null;
+
+    if (videoId && videoId === lastSentVideoId) {
+        return;
+    }
+    if (videoId) lastSentVideoId = videoId;
+
+    chrome.runtime.sendMessage({
+        videourl: detail.sourceurl,
+        trackurl: detail.trackurl || "",
+        title: detail.title || "",
+        description: detail.description || "",
+        rawtext: detail.body
+    });
+});
+
+window.addEventListener("yt-navigate-finish", () => {
+    lastSentVideoId = null;
+});
+```
+
+### 4.3. Breakdown of Responsibilities
+1. **Watch Page Validation:** Guards against processing events outside `/watch?v=...`.
+2. **Event Listener (`captions intercepted`):** Catches the custom DOM event dispatched across the world boundary by `inject.js`.
+3. **Deduplication Gate (`lastSentVideoId`):** Ensures that multiple caption events for the same video are not forwarded repeatedly to the background worker.
+4. **Clean Handoff:** Packages `{ videourl, trackurl, title, description, rawtext }` and dispatches via `chrome.runtime.sendMessage()`.
+5. **SPA Reset:** Resets `lastSentVideoId` on `yt-navigate-finish` when the user transitions to another video.
+
