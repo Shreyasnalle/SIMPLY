@@ -47,7 +47,7 @@ export default function PricingVisual() {
       ball.x += (ball.targetX - ball.x) * 0.5;
       ball.y += (ball.targetY - ball.y) * 0.5;
 
-      ctx.fillStyle = 'rgba(251, 133, 105, 0.15)';
+      ctx.fillStyle = 'rgba(217, 119, 87, 0.15)';
       const dotSpacing = 16;
       for (let x = dotSpacing / 2; x < width; x += dotSpacing) {
         for (let y = dotSpacing / 2; y < height; y += dotSpacing) {
@@ -76,10 +76,10 @@ export default function PricingVisual() {
         ctx.arc(cx, cy, radius, 0, Math.PI * 2);
 
         if (i === 0) {
-          ctx.fillStyle = '#fb8569';
+          ctx.fillStyle = '#d97757';
           ctx.fill();
         } else {
-          ctx.strokeStyle = 'rgba(251, 133, 105, 0.8)';
+          ctx.strokeStyle = 'rgba(217, 119, 87, 0.8)';
           ctx.lineWidth = 1.5;
           ctx.stroke();
         }
@@ -99,7 +99,7 @@ export default function PricingVisual() {
   return (
     <canvas
       ref={canvasRef}
-      className="w-[300px] h-[300px] opacity-95 rounded-full border-[1.5px] border-[#fb8569]/45 box-border"
+      className="w-[300px] h-[300px] opacity-95 rounded-full border-[1.5px] border-[#d97757]/45 box-border"
     />
   );
 }

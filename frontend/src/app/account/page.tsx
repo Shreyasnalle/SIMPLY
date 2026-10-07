@@ -116,7 +116,7 @@ export default function AccountPage() {
     <div className="relative w-screen h-screen bg-simply-dark text-simply-coral font-satoshi overflow-hidden flex items-center justify-center p-4">
       <DotGridBackground interactive />
 
-      <div className="relative z-10 w-[90%] max-w-[850px] min-h-[75%] bg-simply-dark rounded-[24px] p-8 md:p-14 shadow-[0_20px_80px_rgba(0,0,0,0.6)] border-[1.5px] border-simply-coral/20 flex flex-col justify-center overflow-hidden">
+      <div className="relative z-10 w-[90%] max-w-[850px] min-h-[75%] bg-simply-dark rounded-[24px] p-8 md:p-14 shadow-[0_20px_80px_rgba(0,0,0,0.6)] border-[1.5px] border-simply-border flex flex-col justify-center overflow-hidden">
         {/* Sweeping Transition Curtain */}
         <div
           className="absolute inset-0 bg-simply-coral z-20 pointer-events-none transition-transform duration-600 ease-[cubic-bezier(0.7,0,0.3,1)]"
@@ -152,8 +152,8 @@ export default function AccountPage() {
           </div>
 
           {/* Divider */}
-          <div className="hidden md:block w-[1.5px] bg-simply-coral/30 my-0 mx-8" />
-          <div className="block md:hidden h-[1.5px] w-full bg-simply-coral/30 my-6" />
+          <div className="hidden md:block w-[1.5px] bg-simply-border my-0 mx-8" />
+          <div className="block md:hidden h-[1.5px] w-full bg-simply-border my-6" />
 
           {/* Right Column: Form */}
           <div className="flex-1 flex flex-col justify-center">

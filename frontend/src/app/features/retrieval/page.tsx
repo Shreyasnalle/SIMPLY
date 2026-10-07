@@ -9,7 +9,7 @@ export default function RetrievalPage() {
     <div className="relative w-full min-h-screen bg-simply-dark text-simply-coral font-satoshi flex items-center justify-center p-6 md:p-10 box-border">
       <DotGridBackground />
 
-      <div className="relative z-10 w-[90%] max-w-5xl bg-simply-dark rounded-[24px] p-8 md:p-12 shadow-[0_20px_80px_rgba(0,0,0,0.6)] border border-simply-coral/20">
+      <div className="relative z-10 w-[90%] max-w-5xl bg-simply-dark rounded-[24px] p-8 md:p-12 shadow-[0_20px_80px_rgba(0,0,0,0.6)] border border-simply-border">
         {/* Back Link */}
         <div className="relative inline-block group mb-6">
           <Link
@@ -84,7 +84,7 @@ export default function RetrievalPage() {
                 </div>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-simply-coral/15">
+              <div className="mt-6 pt-4 border-t border-simply-border">
                 <p className="font-bold text-sm mb-2 text-white">Generated Answer:</p>
                 <p className="text-sm opacity-90 leading-relaxed m-0 text-simply-cream">
                   Pydantic is a Python library used for data validation and settings management. It enforces type hints at runtime and generates user-friendly validation errors when data is invalid{' '}

@@ -8,12 +8,18 @@ const config: Config = {
     extend: {
       colors: {
         simply: {
-          dark: "#0d1f1c",
-          coral: "#fb8569",
+          dark: "#101010",
+          surface: "#141414",
+          coral: "#d97757",
           cream: "#e4e2dd",
-          border: "rgba(251, 133, 105, 0.2)",
+          border: "#3e3e38",
+          input: "#52514a",
+          ring: "#d97757",
           card: "rgba(255, 255, 255, 0.015)",
         },
+        border: "#3e3e38",
+        input: "#52514a",
+        ring: "#d97757",
         danger: {
           DEFAULT: "#f85149",
           light: "#ff6b6b",

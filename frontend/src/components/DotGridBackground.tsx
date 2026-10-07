@@ -85,11 +85,11 @@ export default function DotGridBackground({ interactive = false }: DotGridBackgr
 
           ctx.beginPath();
           ctx.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2);
-          ctx.fillStyle = '#fb8569';
+          ctx.fillStyle = '#d97757';
           ctx.fill();
         });
       } else {
-        ctx.fillStyle = '#fb8569';
+        ctx.fillStyle = '#d97757';
         dots.forEach((dot) => {
           ctx.beginPath();
           ctx.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2);

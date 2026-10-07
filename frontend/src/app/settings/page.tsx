@@ -172,7 +172,7 @@ export default function SettingsPage() {
     <div className="relative w-screen min-h-screen bg-simply-dark text-simply-coral font-satoshi flex items-center justify-center p-4">
       <DotGridBackground />
 
-      <div className="relative z-10 w-[90%] max-w-[850px] max-h-[96vh] bg-simply-dark rounded-[24px] p-8 md:p-10 shadow-[0_20px_80px_rgba(0,0,0,0.6)] border-[1.5px] border-simply-coral/20 overflow-y-auto">
+      <div className="relative z-10 w-[90%] max-w-[850px] max-h-[96vh] bg-simply-dark rounded-[24px] p-8 md:p-10 shadow-[0_20px_80px_rgba(0,0,0,0.6)] border-[1.5px] border-simply-border overflow-y-auto">
         {/* Back Link */}
         <div className="relative inline-block group mb-6">
           <Link
@@ -191,7 +191,7 @@ export default function SettingsPage() {
         </div>
 
         {/* Profile Details */}
-        <div className="bg-white/[0.015] border-[1.5px] border-simply-coral/20 rounded-xl p-6 mb-6">
+        <div className="bg-white/[0.015] border-[1.5px] border-simply-border rounded-xl p-6 mb-6">
           <h3 className="text-sm font-bold tracking-[0.15em] uppercase mb-4 text-simply-coral">
             PROFILE DETAILS
           </h3>
@@ -223,7 +223,7 @@ export default function SettingsPage() {
         </div>
 
         {/* Change Password */}
-        <div className="bg-white/[0.015] border-[1.5px] border-simply-coral/20 rounded-xl p-6 mb-6">
+        <div className="bg-white/[0.015] border-[1.5px] border-simply-border rounded-xl p-6 mb-6">
           <h3 className="text-sm font-bold tracking-[0.15em] uppercase mb-4 text-simply-coral">
             CHANGE PASSWORD
           </h3>

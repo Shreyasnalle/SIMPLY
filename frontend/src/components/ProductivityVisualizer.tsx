@@ -57,7 +57,7 @@ export default function ProductivityVisualizer() {
       ctx.beginPath();
       ctx.moveTo(20, 202);
       ctx.lineTo(360, 202);
-      ctx.strokeStyle = '#fb8569';
+      ctx.strokeStyle = '#d97757';
       ctx.lineWidth = 1.5;
       ctx.stroke();
 
@@ -118,7 +118,7 @@ export default function ProductivityVisualizer() {
         ctx.fillStyle = leftGrad;
         ctx.fill();
 
-        ctx.strokeStyle = '#fb8569';
+        ctx.strokeStyle = '#d97757';
         ctx.lineWidth = 1.5;
         ctx.stroke();
 
@@ -131,7 +131,7 @@ export default function ProductivityVisualizer() {
         ctx.closePath();
         ctx.clip();
 
-        ctx.fillStyle = '#fb8569';
+        ctx.fillStyle = '#d97757';
         const numDotCols = 5;
         const dotSpacingY = 12;
         for (let c = 0; c < numDotCols; c++) {
@@ -165,7 +165,7 @@ export default function ProductivityVisualizer() {
         ctx.fillStyle = rightGrad;
         ctx.fill();
 
-        ctx.strokeStyle = '#fb8569';
+        ctx.strokeStyle = '#d97757';
         ctx.lineWidth = 1.5;
         ctx.stroke();
 
@@ -178,7 +178,7 @@ export default function ProductivityVisualizer() {
         ctx.closePath();
         ctx.clip();
 
-        ctx.fillStyle = 'rgba(251, 133, 105, 0.75)';
+        ctx.fillStyle = 'rgba(217, 119, 87, 0.75)';
         for (let c = 0; c < numDotCols; c++) {
           const u = (c + 0.5) / numDotCols;
           const px = col.x + u * (W / 2);
@@ -204,19 +204,19 @@ export default function ProductivityVisualizer() {
         ctx.closePath();
 
         const topGrad = ctx.createLinearGradient(topLeft.x, topLeft.y, topRight.x, topRight.y);
-        topGrad.addColorStop(0, '#ffac99');
-        topGrad.addColorStop(1, '#fb8569');
+        topGrad.addColorStop(0, '#f09e85');
+        topGrad.addColorStop(1, '#d97757');
         ctx.fillStyle = topGrad;
         ctx.fill();
 
-        ctx.strokeStyle = '#fb8569';
+        ctx.strokeStyle = '#d97757';
         ctx.lineWidth = 1.5;
         ctx.stroke();
 
         ctx.beginPath();
         ctx.moveTo(topBottom.x, topBottom.y);
         ctx.lineTo(bottomCenter.x, bottomCenter.y);
-        ctx.strokeStyle = 'rgba(251, 133, 105, 0.6)';
+        ctx.strokeStyle = 'rgba(217, 119, 87, 0.6)';
         ctx.lineWidth = 1.5;
         ctx.stroke();
       });

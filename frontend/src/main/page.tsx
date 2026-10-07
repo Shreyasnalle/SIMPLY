@@ -63,7 +63,7 @@ export default function LandingPage() {
       <DotGridBackground interactive />
 
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full h-[4.5rem] px-12 py-7 flex justify-between items-center z-20 bg-simply-dark/90 backdrop-blur-sm shadow-[0_0.25px_3px_rgba(255,201,159,0.33)]">
+      <header className="fixed top-0 left-0 w-full h-[4.5rem] px-12 py-7 flex justify-between items-center z-20 bg-simply-dark/90 backdrop-blur-sm shadow-[0_0.25px_3px_rgba(217,119,87,0.33)] border-b border-simply-border">
         <Link
           href="/"
           className="text-2xl font-extrabold tracking-[0.15em] uppercase text-simply-coral no-underline cursor-pointer"
@@ -100,7 +100,7 @@ export default function LandingPage() {
       </main>
 
       {/* About Section */}
-      <section className="relative z-10 w-[90%] max-w-6xl mx-auto mb-24 bg-simply-dark rounded-[24px] p-12 shadow-[0_20px_80px_rgba(0,0,0,0.6)] border border-simply-coral/20">
+      <section className="relative z-10 w-[90%] max-w-6xl mx-auto mb-24 bg-simply-dark rounded-[24px] p-12 shadow-[0_20px_80px_rgba(0,0,0,0.6)] border border-simply-border">
         <div
           id="about"
           className="transition-transform duration-700 ease-out"
@@ -112,7 +112,7 @@ export default function LandingPage() {
             <span>ABOUT</span>
             <span>PART [01]</span>
           </div>
-          <div className="h-[1.5px] bg-simply-coral/20 w-full my-4 mb-14" />
+          <div className="h-[1.5px] bg-simply-border w-full my-4 mb-14" />
 
           <div className="flex flex-col lg:flex-row gap-16 items-center">
             <div className="flex-1 text-left">
@@ -128,10 +128,10 @@ export default function LandingPage() {
             </div>
 
             <div className="flex-1 flex justify-center items-center w-full">
-              <div className="border border-simply-coral/30 rounded-2xl w-full max-w-md p-10 text-center flex flex-col items-center justify-center gap-5 bg-white/[0.01]">
+              <div className="border border-simply-border rounded-2xl w-full max-w-md p-10 text-center flex flex-col items-center justify-center gap-5 bg-white/[0.01]">
                 <span className="text-lg opacity-70 tracking-[0.15em]">PRODUCTIVITY</span>
-                <div className="w-[1px] h-10 bg-simply-coral/30" />
-                <div className="inline-flex border border-simply-coral/30 rounded-lg overflow-hidden">
+                <div className="w-[1px] h-10 bg-simply-border" />
+                <div className="inline-flex border border-simply-border rounded-lg overflow-hidden">
                   <span className="bg-simply-coral text-simply-dark py-4 px-6 text-2xl font-bold tracking-[0.2em]">
                     10X
                   </span>
@@ -158,9 +158,9 @@ export default function LandingPage() {
             <span>NAVIGATION</span>
             <span>PART [02]</span>
           </div>
-          <div className="h-[1.5px] bg-simply-coral/20 w-full my-4 mb-14" />
+          <div className="h-[1.5px] bg-simply-border w-full my-4 mb-14" />
 
-          <div className="border-[1.5px] border-simply-coral/30 rounded-[24px] py-16 px-10 text-center flex flex-col items-center justify-center gap-8">
+          <div className="border-[1.5px] border-simply-border rounded-[24px] py-16 px-10 text-center flex flex-col items-center justify-center gap-8">
             <h3 className="text-[clamp(1.8rem,3vw,2.75rem)] font-normal leading-snug m-0 max-w-3xl tracking-[0.12em]">
               "Download SIMPLY from browser extensions"
             </h3>
@@ -179,7 +179,7 @@ export default function LandingPage() {
       {/* Pricing Section */}
       <section
         id="pricing"
-        className="relative z-10 w-[90%] max-w-4xl mx-auto mb-24 bg-simply-dark rounded-[24px] p-12 shadow-[0_20px_80px_rgba(0,0,0,0.6)] border border-simply-coral/20 transition-transform duration-700 ease-out"
+        className="relative z-10 w-[90%] max-w-4xl mx-auto mb-24 bg-simply-dark rounded-[24px] p-12 shadow-[0_20px_80px_rgba(0,0,0,0.6)] border border-simply-border transition-transform duration-700 ease-out"
         style={{
           transform: activeHighlight === 'pricing' ? 'scale(1.02)' : 'scale(1)',
         }}
@@ -188,11 +188,11 @@ export default function LandingPage() {
           <span>PRICING</span>
           <span>PART [04]</span>
         </div>
-        <div className="h-[1.5px] bg-simply-coral/20 w-full my-4 mb-12" />
+        <div className="h-[1.5px] bg-simply-border w-full my-4 mb-12" />
 
         <div className="flex flex-col md:flex-row gap-8 justify-center items-stretch">
           {/* Student Plan */}
-          <div className="flex-1 max-w-sm bg-white/[0.015] border-[1.5px] border-simply-coral/30 rounded-[24px] p-8 flex flex-col justify-between gap-6">
+          <div className="flex-1 max-w-sm bg-white/[0.015] border-[1.5px] border-simply-border rounded-[24px] p-8 flex flex-col justify-between gap-6">
             <div>
               <h3 className="text-2xl font-bold mb-2 tracking-[0.05em]">STUDENT</h3>
               <p className="text-sm opacity-70 m-0 text-simply-cream">
@@ -220,7 +220,7 @@ export default function LandingPage() {
           </div>
 
           {/* Institutions Plan */}
-          <div className="flex-1 max-w-sm bg-white/[0.015] border-[1.5px] border-simply-coral/15 rounded-[24px] p-8 flex flex-col justify-between min-h-[300px]">
+          <div className="flex-1 max-w-sm bg-white/[0.015] border-[1.5px] border-simply-border rounded-[24px] p-8 flex flex-col justify-between min-h-[300px]">
             <div>
               <h3 className="text-2xl font-bold mb-2 tracking-[0.05em]">INSTITUTIONS</h3>
               <p className="text-sm opacity-70 m-0 text-simply-cream">
@@ -228,7 +228,7 @@ export default function LandingPage() {
               </p>
             </div>
 
-            <div className="w-full border-[1.5px] border-dashed border-simply-coral/25 rounded py-3 text-center text-sm font-bold uppercase tracking-[0.3em] text-simply-coral/50">
+            <div className="w-full border-[1.5px] border-dashed border-simply-border rounded py-3 text-center text-sm font-bold uppercase tracking-[0.3em] text-simply-coral/60">
               COMING SOON
             </div>
           </div>
@@ -237,7 +237,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer id="contact" className="relative z-10 w-full bg-simply-dark px-12 py-10 text-simply-coral">
-        <div className="h-[1.5px] bg-simply-coral/25 w-full mb-6" />
+        <div className="h-[1.5px] bg-simply-border w-full mb-6" />
 
         <div className="flex justify-between items-center flex-wrap gap-5 text-sm font-medium tracking-[0.08em]">
           <Link href="/" className="text-xl font-extrabold tracking-[0.15em] text-simply-coral no-underline">
@@ -276,7 +276,7 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <div className="h-[1.5px] bg-simply-coral/25 w-full my-6" />
+        <div className="h-[1.5px] bg-simply-border w-full my-6" />
 
         <div className="text-left mb-8">
           <h4 className="text-base font-bold tracking-[0.15em] uppercase mb-4">FEATURES</h4>
@@ -290,7 +290,7 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <div className="h-[1px] bg-simply-coral/10 w-full mb-6" />
+        <div className="h-[1px] bg-simply-border w-full mb-6" />
 
         <div className="flex gap-4 justify-start items-center text-xs opacity-70 tracking-[0.05em]">
           <Link href="/policies" className="hover:opacity-100 transition-opacity">
