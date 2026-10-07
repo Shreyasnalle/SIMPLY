@@ -10,6 +10,7 @@
     function getVideoMetadata() {
         const vd = window.ytInitialPlayerResponse?.videoDetails;
         return {
+            channel_name: vd?.author || "",
             title: vd?.title || "",
             description: vd?.shortDescription || ""
         };
