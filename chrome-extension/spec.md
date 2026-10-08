@@ -228,3 +228,74 @@ window.addEventListener("yt-navigate-finish", () => {
 4. **Clean Handoff:** Packages `{ videourl, trackurl, title, description, rawtext }` and dispatches via `chrome.runtime.sendMessage()`.
 5. **SPA Reset:** Resets `lastSentVideoId` on `yt-navigate-finish` when the user transitions to another video.
 
+---
+
+## 5. VIDEO INGESTION FOR RAG (Two-Tier Progressive Visual Pipeline)
+
+This section specifies how video visual context is captured for RAG without downloading full video streams, avoiding heavy server compute, high network bandwidth, and long ingestion latency.
+
+### 5.1. Architectural Flowchart
+
+```
+┌────────────────────────────────────────────────────────┐
+│ Tier 1: YouTube Storyboard Sprites (Immediate Baseline)│
+│ • Sourced from ytInitialPlayerResponse.storyboards     │
+│ • Low-res tiled JPEG sheets covering 0:00 to end       │
+└───────────────────────────┬────────────────────────────┘
+                            │
+                            ▼
+               ┌─────────────────────────┐
+               │    Base Video Chunks    │◄─────────────────────────────┐
+               │ (Captions + Base Visual)│                              │
+               └─────────────────────────┘                              │
+                                                                        │
+┌────────────────────────────────────────────────────────┐              │
+│ Tier 2: Live HTML5 Canvas (Progressive High-Res)       │              │
+│ • Captures current frame from <video> via <canvas>     │              │
+│ • Fires on normal playback or user seeking (e.g. 15m)  │              │
+└───────────────────────────┬────────────────────────────┘              │
+                            │                                           │
+                            ▼                                           │
+         ┌──────────────────────────────────────┐                       │
+         │ Patch / Upgrade Specific Time Chunks │───────────────────────┘
+         │ (High-res OCR, LaTeX, Code detail)   │ (Overwrites/Enriches
+         └──────────────────────────────────────┘  only matching timestamp)
+```
+
+---
+
+### 5.2. Core Problems Solved
+1. **Zero Video Stream Downloads:** Avoids fetching heavy 300MB+ video files via `yt-dlp` or chunked streams, preventing server bandwidth overload and YouTube bot IP blocks.
+2. **Zero Ingestion Latency:** The system does not block the user waiting for minutes of video transcoding before answering queries.
+3. **Future & Past Seek Awareness:** Even if a user jumps directly to 15:00 in a 30:00 video, frames before and after are already known via Tier 1.
+
+---
+
+### 5.3. Tier 1: Storyboard Sprites (Global Baseline Ingestion)
+* **Source:** Extracted directly from `window.ytInitialPlayerResponse.storyboards` inside `inject.js`.
+* **Mechanism:**
+  * YouTube generates pre-rendered sprite sheets (`i.ytimg.com`) for timeline hover scrubbing at video upload time.
+  * Each sprite sheet contains a grid (e.g., 5x5 or 10x10) of timestamped preview frames spaced at regular intervals (typically every 2 to 10 seconds).
+  * Only a few tiny JPEG sheets (~50KB–200KB each) are fetched, covering the **entire video duration** (0:00 to end).
+* **Role in RAG:**
+  * Slices the sprites to extract baseline visual context alongside caption segments.
+  * Populates initial vector chunks for the whole video immediately upon page load.
+  * Enables questions about future topics ("What will be taught later at 20:00?") or past topics with baseline visual accuracy.
+
+---
+
+### 5.4. Tier 2: Live HTML5 Canvas (Progressive High-Res Enhancement)
+* **Source:** The browser's active `<video>` DOM element in `content.js`.
+* **Mechanism:**
+  * When a user is watching normally, or seeks to an arbitrary timestamp (e.g., jumps straight to 15:00), the browser hardware decodes the exact, full-resolution frame (720p/1080p/4K).
+  * An offscreen `<canvas>` captures the rendered frame with zero server compute:
+    ```javascript
+    canvas.getContext('2d').drawImage(video, 0, 0);
+    ```
+  * Dispatches high-resolution frame data for that active time window.
+* **Role in RAG:**
+  * **Targeted Upgrades:** The backend locates only the chunk matching the current `[timestamp_start, timestamp_end]`.
+  * **Patching Chunks:** Replaces or enriches the coarse storyboard visual data with pristine high-resolution visual extraction (high-accuracy OCR for dense code, blackboard math, and complex diagrams).
+  * **Progressive Quality:** As the user watches the video, chunks for the watched segments progressively upgrade to top-tier fidelity while unplayed portions remain covered by the Tier 1 storyboard baseline.
+
+
