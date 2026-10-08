@@ -3,8 +3,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import DotGridBackground from '@/components/DotGridBackground';
-import ProductivityVisualizer from '@/components/ProductivityVisualizer';
 interface AuthResponse {
   success: boolean;
   user_id?: string;
@@ -114,8 +112,6 @@ export default function AccountPage() {
 
   return (
     <div className="relative w-screen h-screen bg-simply-dark text-simply-coral font-satoshi overflow-hidden flex items-center justify-center p-4">
-      <DotGridBackground interactive />
-
       <div className="relative z-10 w-[90%] max-w-[850px] min-h-[75%] bg-simply-dark rounded-[24px] p-8 md:p-14 shadow-[0_20px_80px_rgba(0,0,0,0.6)] border-[1.5px] border-simply-border flex flex-col justify-center overflow-hidden">
         {/* Sweeping Transition Curtain */}
         <div
@@ -148,7 +144,6 @@ export default function AccountPage() {
             <p className="text-sm md:text-base leading-relaxed opacity-80 mb-5 tracking-[0.05em] text-simply-cream">
               Your learning shouldn't require ten tabs. Process transcripts, query concepts and extract cited insights right where you watch.
             </p>
-            <ProductivityVisualizer />
           </div>
 
           {/* Divider */}

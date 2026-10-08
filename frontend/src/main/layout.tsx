@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./global.css";
-import HashRouteHandler from "@/components/HashRouteHandler";
 import logo from "@/assests/logo.png";
 
 export const metadata: Metadata = {
@@ -22,7 +21,6 @@ export default function RootLayout({
         <link rel="icon" type="image/png" href={logo.src} />
       </head>
       <body className="bg-simply-dark text-simply-coral antialiased min-h-screen">
-        <HashRouteHandler />
         {children}
       </body>
     </html>

@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import DotGridBackground from '@/components/DotGridBackground';
 interface UserProfile {
   name: string;
   email: string;
@@ -170,8 +169,6 @@ export default function SettingsPage() {
 
   return (
     <div className="relative w-screen min-h-screen bg-simply-dark text-simply-coral font-satoshi flex items-center justify-center p-4">
-      <DotGridBackground />
-
       <div className="relative z-10 w-[90%] max-w-[850px] max-h-[96vh] bg-simply-dark rounded-[24px] p-8 md:p-10 shadow-[0_20px_80px_rgba(0,0,0,0.6)] border-[1.5px] border-simply-border overflow-y-auto">
         {/* Back Link */}
         <div className="relative inline-block group mb-6">

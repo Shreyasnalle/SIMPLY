@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import DotGridBackground from '@/components/DotGridBackground';
 
 export default function LandingPage() {
   const [activeHighlight, setActiveHighlight] = useState<string | null>(null);
@@ -60,8 +59,6 @@ export default function LandingPage() {
 
   return (
     <div className="relative w-full min-h-screen bg-simply-dark text-simply-coral font-satoshi overflow-x-hidden">
-      <DotGridBackground interactive />
-
       {/* Header */}
       <header className="fixed top-0 left-0 w-full h-[4.5rem] px-12 py-7 flex justify-between items-center z-20 bg-simply-dark/90 backdrop-blur-sm shadow-[0_0.25px_3px_rgba(217,119,87,0.33)] border-b border-simply-border">
         <Link
