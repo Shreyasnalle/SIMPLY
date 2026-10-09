@@ -21,19 +21,56 @@ export type GridPulseProps = Omit<
    * inside the grid's parent.
    */
   avoid?: string;
+  /** Palette of hex colors from spec.md to sweep through */
+  colors?: string[];
 };
 
-/** Hue at the top of the field and how far it turns by the bottom: yellow,
- *  through orange, red, magenta and blue, to green. */
-const HUE_TOP = 60;
-const HUE_SPAN = 270;
 /**
- * Each cell takes one of these lightnesses, so a sweep reads as a field of
- * tints rather than one flat colour. On a dark ground the pale end of the
- * ladder would fade through grey, so it starts deeper there.
+ * Palette colors from frontend/spec.md:
+ * - Chart 1: #B05730
+ * - Primary / Ring: #C96442
+ * - Chart 5: #B4552D
+ * - Chart 3: #DED8C4
+ * - Chart 2: #9C87F5
+ * - Chart 4: #DBD3F0
  */
-const TINTS = [88, 80, 72, 64, 56];
-const TINTS_DARK = [72, 65, 58, 51, 44];
+const SPEC_PALETTE = [
+  "#B05730", // Chart 1 (Terracotta)
+  "#C96442", // Primary / Ring
+  "#B4552D", // Chart 5 (Deep terracotta)
+  "#DED8C4", // Chart 3 (Warm sand / parchment)
+  "#9C87F5", // Chart 2 (Soft lavender)
+  "#DBD3F0", // Chart 4 (Pale lavender)
+];
+
+function hexToRgb(hex: string): [number, number, number] {
+  const clean = hex.replace("#", "");
+  const num = parseInt(clean, 16);
+  return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
+}
+
+function interpolatePalette(palette: string[], t: number): [number, number, number] {
+  if (palette.length === 0) return [201, 100, 66];
+  if (palette.length === 1) return hexToRgb(palette[0]);
+  const scaled = Math.max(0, Math.min(1, t)) * (palette.length - 1);
+  const index = Math.floor(scaled);
+  const nextIndex = Math.min(palette.length - 1, index + 1);
+  const frac = scaled - index;
+
+  const rgb1 = hexToRgb(palette[index]);
+  const rgb2 = hexToRgb(palette[nextIndex]);
+
+  return [
+    Math.round(rgb1[0] + (rgb2[0] - rgb1[0]) * frac),
+    Math.round(rgb1[1] + (rgb2[1] - rgb1[1]) * frac),
+    Math.round(rgb1[2] + (rgb2[2] - rgb1[2]) * frac),
+  ];
+}
+
+/** Multipliers to produce slight tint variations across cells */
+const TINTS_LIGHT = [1.06, 1.02, 1.0, 0.96, 0.91];
+const TINTS_DARK = [1.12, 1.06, 1.0, 0.94, 0.88];
+
 /** How faint a cell goes right behind a line of text. */
 const FAINT = 0.13;
 /** How many cells it takes to come back up to full strength. */
@@ -60,7 +97,7 @@ const easeIn = (t: number) => t * t;
 /**
  * A fine grid that takes colour where the pointer passes and lets it go a
  * moment later, with a few cells lighting on their own. The spectrum runs
- * down the field like a printed colour chart, so a sweep reveals one
+ * down the field using colors defined in spec.md, so a sweep reveals one
  * coherent band of colour rather than confetti.
  *
  * Place it inside a positioned container, under the content. It is
@@ -74,6 +111,7 @@ export function GridPulse({
   ambient = 2,
   maxLit = 180,
   avoid = "[data-grid-avoid]",
+  colors = SPEC_PALETTE,
   className,
   style,
   ...props
@@ -93,7 +131,7 @@ export function GridPulse({
     let width = 0;
     let height = 0;
     let clear: DOMRect[] = [];
-    let tints = TINTS;
+    let tints = TINTS_LIGHT;
     const cells = new Map<string, Cell>();
 
     // Light or dark ground, read from the text colour the grid inherits,
@@ -109,7 +147,7 @@ export function GridPulse({
       probe.fillRect(0, 0, 1, 1);
       const [r, g, b] = probe.getImageData(0, 0, 1, 1).data;
       const light = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255 > 0.5;
-      tints = light ? TINTS_DARK : TINTS;
+      tints = light ? TINTS_DARK : TINTS_LIGHT;
     };
 
     // Protect the lines of text, not the boxes that hold them: a paragraph
@@ -172,9 +210,12 @@ export function GridPulse({
 
     const ink = (row: number) => {
       const t = rows > 1 ? Math.min(1, row / (rows - 1)) : 0;
-      const hue = (((HUE_TOP - t * HUE_SPAN) % 360) + 360) % 360;
+      const [r, g, b] = interpolatePalette(colors, t);
       const tint = tints[Math.floor(Math.random() * tints.length)];
-      return `hsl(${Math.round(hue)} 94% ${tint}%)`;
+      const adjR = Math.min(255, Math.max(0, Math.round(r * tint)));
+      const adjG = Math.min(255, Math.max(0, Math.round(g * tint)));
+      const adjB = Math.min(255, Math.max(0, Math.round(b * tint)));
+      return `rgb(${adjR}, ${adjG}, ${adjB})`;
     };
 
     // One loop draws every cell; it runs only while something is lit.
@@ -321,7 +362,7 @@ export function GridPulse({
       clearTimeout(beat);
       window.removeEventListener("pointermove", onMove);
     };
-  }, [cell, reach, ambient, maxLit, avoid]);
+  }, [cell, reach, ambient, maxLit, avoid, colors]);
 
   return (
     <div
@@ -331,8 +372,8 @@ export function GridPulse({
       className={cn(
         "pointer-events-none absolute inset-0 overflow-hidden",
         // The hairlines, faint on their own so the lit cells keep full ink.
-        // Override with --grid-pulse-line.
-        "[--grid-pulse-line:color-mix(in_oklab,var(--color-foreground)_7%,transparent)]",
+        // Uses the Border color from spec.md (#DAD9D4)
+        "[--grid-pulse-line:var(--border,#DAD9D4)]",
         // Fades out at the bottom, so whatever follows can climb over it.
         "[mask-image:linear-gradient(to_bottom,#000_92%,transparent)]",
         className,
@@ -359,7 +400,7 @@ export default GridPulse;
 
 /** A halo in the page colour, so lit cells never crowd the letters. */
 const guard =
-  "[text-shadow:0_0_6px_var(--color-background),0_0_14px_var(--color-background),0_0_30px_var(--color-background),0_0_52px_var(--color-background)]";
+  "[text-shadow:0_0_6px_var(--color-background,#FAF9F5),0_0_14px_var(--color-background,#FAF9F5),0_0_30px_var(--color-background,#FAF9F5),0_0_52px_var(--color-background,#FAF9F5)]";
 
 export function GridPulseDemo() {
   const [text, setText] = useState(true);

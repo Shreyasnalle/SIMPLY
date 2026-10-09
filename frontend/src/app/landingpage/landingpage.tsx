@@ -61,7 +61,7 @@ export default function LandingPage() {
   return (
     <div className="relative w-full min-h-screen bg-simply-dark text-simply-coral font-satoshi overflow-x-hidden">
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full h-[4.5rem] px-12 py-7 flex justify-between items-center z-20 bg-simply-dark/90 backdrop-blur-sm shadow-[0_0.25px_3px_rgba(217,119,87,0.33)] border-b border-simply-border">
+      <header className="fixed top-0 left-0 w-full h-[4.5rem] px-12 py-7 flex justify-between items-center z-20 bg-simply-dark/90 backdrop-blur-sm shadow-[0_0.25px_3px_rgba(201,100,66,0.2)] border-b border-simply-border">
         <Link
           href="/"
           className="text-2xl font-extrabold tracking-[0.15em] uppercase text-simply-coral no-underline cursor-pointer"
@@ -108,7 +108,7 @@ export default function LandingPage() {
       </main>
 
       {/* About Section */}
-      <section className="relative z-10 w-[90%] max-w-6xl mx-auto mb-24 bg-simply-dark rounded-[24px] p-12 shadow-[0_20px_80px_rgba(0,0,0,0.6)] border border-simply-border">
+      <section className="relative z-10 w-[90%] max-w-6xl mx-auto mb-24 bg-simply-surface rounded-[24px] p-12 shadow-[0_20px_60px_rgba(61,57,41,0.08)] border border-simply-border">
         <div
           id="about"
           className="transition-transform duration-700 ease-out"
@@ -136,7 +136,7 @@ export default function LandingPage() {
             </div>
 
             <div className="flex-1 flex justify-center items-center w-full">
-              <div className="border border-simply-border rounded-2xl w-full max-w-md p-10 text-center flex flex-col items-center justify-center gap-5 bg-white/[0.01]">
+              <div className="border border-simply-border rounded-2xl w-full max-w-md p-10 text-center flex flex-col items-center justify-center gap-5 bg-simply-dark/40">
                 <span className="text-lg opacity-70 tracking-[0.15em]">PRODUCTIVITY</span>
                 <div className="w-[1px] h-10 bg-simply-border" />
                 <div className="inline-flex border border-simply-border rounded-lg overflow-hidden">
@@ -187,7 +187,7 @@ export default function LandingPage() {
       {/* Pricing Section */}
       <section
         id="pricing"
-        className="relative z-10 w-[90%] max-w-4xl mx-auto mb-24 bg-simply-dark rounded-[24px] p-12 shadow-[0_20px_80px_rgba(0,0,0,0.6)] border border-simply-border transition-transform duration-700 ease-out"
+        className="relative z-10 w-[90%] max-w-4xl mx-auto mb-24 bg-simply-surface rounded-[24px] p-12 shadow-[0_20px_60px_rgba(61,57,41,0.08)] border border-simply-border transition-transform duration-700 ease-out"
         style={{
           transform: activeHighlight === 'pricing' ? 'scale(1.02)' : 'scale(1)',
         }}
@@ -200,7 +200,7 @@ export default function LandingPage() {
 
         <div className="flex flex-col md:flex-row gap-8 justify-center items-stretch">
           {/* Student Plan */}
-          <div className="flex-1 max-w-sm bg-white/[0.015] border-[1.5px] border-simply-border rounded-[24px] p-8 flex flex-col justify-between gap-6">
+          <div className="flex-1 max-w-sm bg-simply-dark/50 border-[1.5px] border-simply-border rounded-[24px] p-8 flex flex-col justify-between gap-6">
             <div>
               <h3 className="text-2xl font-bold mb-2 tracking-[0.05em]">STUDENT</h3>
               <p className="text-sm opacity-70 m-0 text-simply-cream">
@@ -228,7 +228,7 @@ export default function LandingPage() {
           </div>
 
           {/* Institutions Plan */}
-          <div className="flex-1 max-w-sm bg-white/[0.015] border-[1.5px] border-simply-border rounded-[24px] p-8 flex flex-col justify-between min-h-[300px]">
+          <div className="flex-1 max-w-sm bg-simply-dark/50 border-[1.5px] border-simply-border rounded-[24px] p-8 flex flex-col justify-between min-h-[300px]">
             <div>
               <h3 className="text-2xl font-bold mb-2 tracking-[0.05em]">INSTITUTIONS</h3>
               <p className="text-sm opacity-70 m-0 text-simply-cream">

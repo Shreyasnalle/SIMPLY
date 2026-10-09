@@ -60,7 +60,7 @@ export default function LandingPage() {
   return (
     <div className="relative w-full min-h-screen bg-simply-dark text-simply-coral font-satoshi overflow-x-hidden">
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full h-[4.5rem] px-12 py-7 flex justify-between items-center z-20 bg-simply-dark/90 backdrop-blur-sm shadow-[0_0.25px_3px_rgba(217,119,87,0.33)] border-b border-simply-border">
+      <header className="fixed top-0 left-0 w-full h-[4.5rem] px-12 py-7 flex justify-between items-center z-20 bg-simply-dark/90 backdrop-blur-sm shadow-[0_0.25px_3px_rgba(201,100,66,0.2)] border-b border-simply-border">
         <Link
           href="/"
           className="text-2xl font-extrabold tracking-[0.15em] uppercase text-simply-coral no-underline cursor-pointer"

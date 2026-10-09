@@ -6,7 +6,7 @@ import Link from 'next/link';
 export default function RetrievalPage() {
   return (
     <div className="relative w-full min-h-screen bg-simply-dark text-simply-coral font-satoshi flex items-center justify-center p-6 md:p-10 box-border">
-      <div className="relative z-10 w-[90%] max-w-5xl bg-simply-dark rounded-[24px] p-8 md:p-12 shadow-[0_20px_80px_rgba(0,0,0,0.6)] border border-simply-border">
+      <div className="relative z-10 w-[90%] max-w-5xl bg-simply-surface rounded-[24px] p-8 md:p-12 shadow-[0_20px_60px_rgba(61,57,41,0.08)] border border-simply-border">
         {/* Back Link */}
         <div className="relative inline-block group mb-6">
           <Link

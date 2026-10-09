@@ -10,7 +10,7 @@ export default function PoliciesPage() {
 
   return (
     <div className="relative w-full min-h-screen bg-simply-dark text-simply-coral font-satoshi flex flex-col items-center p-6 md:p-10 box-border">
-      <div className="relative z-10 w-[90%] max-w-4xl bg-simply-dark rounded-[24px] pt-16 pb-12 px-6 md:px-12 shadow-[0_20px_80px_rgba(0,0,0,0.6)] border border-simply-border">
+      <div className="relative z-10 w-[90%] max-w-4xl bg-simply-surface rounded-[24px] pt-16 pb-12 px-6 md:px-12 shadow-[0_20px_60px_rgba(61,57,41,0.08)] border border-simply-border">
         {/* Back Link */}
         <div className="relative inline-block group mb-6">
           <Link

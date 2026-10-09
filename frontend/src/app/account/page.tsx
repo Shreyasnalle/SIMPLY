@@ -112,7 +112,7 @@ export default function AccountPage() {
 
   return (
     <div className="relative w-screen h-screen bg-simply-dark text-simply-coral font-satoshi overflow-hidden flex items-center justify-center p-4">
-      <div className="relative z-10 w-[90%] max-w-[850px] min-h-[75%] bg-simply-dark rounded-[24px] p-8 md:p-14 shadow-[0_20px_80px_rgba(0,0,0,0.6)] border-[1.5px] border-simply-border flex flex-col justify-center overflow-hidden">
+      <div className="relative z-10 w-[90%] max-w-[850px] min-h-[75%] bg-simply-surface rounded-[24px] p-8 md:p-14 shadow-[0_20px_60px_rgba(61,57,41,0.08)] border-[1.5px] border-simply-border flex flex-col justify-center overflow-hidden">
         {/* Sweeping Transition Curtain */}
         <div
           className="absolute inset-0 bg-simply-coral z-20 pointer-events-none transition-transform duration-600 ease-[cubic-bezier(0.7,0,0.3,1)]"
