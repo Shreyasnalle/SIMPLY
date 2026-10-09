@@ -7,6 +7,8 @@
 :root {
   --background: #101010;
   --foreground: #d97757;
+  --color-background: #101010;
+  --color-foreground: #d97757;
   --border: #3e3e38;
   --input: #52514a;
   --ring: #d97757;
