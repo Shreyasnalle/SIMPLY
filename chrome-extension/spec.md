@@ -234,68 +234,105 @@ window.addEventListener("yt-navigate-finish", () => {
 
 This section specifies how video visual context is captured for RAG without downloading full video streams, avoiding heavy server compute, high network bandwidth, and long ingestion latency.
 
-### 5.1. Architectural Flowchart
-
-```
-┌────────────────────────────────────────────────────────┐
-│ Tier 1: YouTube Storyboard Sprites (Immediate Baseline)│
-│ • Sourced from ytInitialPlayerResponse.storyboards     │
-│ • Low-res tiled JPEG sheets covering 0:00 to end       │
-└───────────────────────────┬────────────────────────────┘
-                            │
-                            ▼
-               ┌─────────────────────────┐
-               │    Base Video Chunks    │◄─────────────────────────────┐
-               │ (Captions + Base Visual)│                              │
-               └─────────────────────────┘                              │
-                                                                        │
-┌────────────────────────────────────────────────────────┐              │
-│ Tier 2: Live HTML5 Canvas (Progressive High-Res)       │              │
-│ • Captures current frame from <video> via <canvas>     │              │
-│ • Fires on normal playback or user seeking (e.g. 15m)  │              │
-└───────────────────────────┬────────────────────────────┘              │
-                            │                                           │
-                            ▼                                           │
-         ┌──────────────────────────────────────┐                       │
-         │ Patch / Upgrade Specific Time Chunks │───────────────────────┘
-         │ (High-res OCR, LaTeX, Code detail)   │ (Overwrites/Enriches
-         └──────────────────────────────────────┘  only matching timestamp)
-```
+### 5.1. Design Principles
+1. **Captions/audio are the primary text source (Tier 1).** Storyboard sprites are too low-resolution (roughly 48x27 to 320x180 per frame, sampled every few seconds) for OCR, code or math. They are never used for text extraction.
+2. **The live frame is the only visual-text source (Tier 2).** Visual text (code, LaTeX, slide text, diagram labels) comes only from full-resolution canvas frames of what the user is actually watching.
+3. **Cheap gates come first, expensive ones last.** Client-side hash gate → rate limit → backend VLM → decision agent → DB write.
+4. **No video stream downloads.** No `yt-dlp`, no server-side transcoding, no ingestion latency.
 
 ---
 
-### 5.2. Core Problems Solved
-1. **Zero Video Stream Downloads:** Avoids fetching heavy 300MB+ video files via `yt-dlp` or chunked streams, preventing server bandwidth overload and YouTube bot IP blocks.
-2. **Zero Ingestion Latency:** The system does not block the user waiting for minutes of video transcoding before answering queries.
-3. **Future & Past Seek Awareness:** Even if a user jumps directly to 15:00 in a 30:00 video, frames before and after are already known via Tier 1.
+### 5.2. Tier 1: Caption-Driven Baseline Chunks (Global Ingestion)
+
+![Tier 1 flow: browser to backend, storyboard chunk API, extraction, validation, transformation and chunking](../assets/tier1_flow.png)
+
+*Flow: `browser → (audio + storyboard + contextual info) → backend → [storyboard chunk API] → extraction + deserialization + validation + transformation (Redis) → chunking`*
+
+* **Trigger:** Once per video, on page load, from the `captions intercepted` flow (`inject.js → content.js → background.js`).
+* **Payload:** captions (audio text), storyboard metadata from `window.ytInitialPlayerResponse.storyboards`, title, description (including chapter timestamps), and the video URL.
+* **Backend processing (Redis queue worker):**
+  * The endpoint does light schema/size validation, enqueues a job and returns `202 Accepted` with a `job_id`, so other API requests are never blocked.
+  * The worker performs extraction, deserialization, validation, transformation and then chunking of the entire video (0:00 to end).
+  * Chunks are embedded and stored (text/metadata in Supabase Postgres, vectors alongside).
+* **Chunk formation:**
+  * Boundaries come from caption sentence and pause boundaries, optionally aligned to storyboard scene changes (hashing adjacent sprite tiles), so each chunk is one coherent idea.
+  * Chunk text is the audio text, with title, description and chapter context attached.
+  * Storyboards contribute only light metadata: scene boundaries and a coarse `visual_type` (slide / code / diagram / talking head). This is also used to prioritize Tier 2 capture.
+* **Idempotency:** Job IDs are deterministic (`video_id`) so retries never create duplicate chunks. Chunk identity is `(video_id, chunk_index)` with `t_start` and `t_end`.
+* **Limitations:** Videos with no or poor captions produce weak Tier 1 chunks. They should be flagged `low_text` so Tier 2 carries more weight.
 
 ---
 
-### 5.3. Tier 1: Storyboard Sprites (Global Baseline Ingestion)
-* **Source:** Extracted directly from `window.ytInitialPlayerResponse.storyboards` inside `inject.js`.
-* **Mechanism:**
-  * YouTube generates pre-rendered sprite sheets (`i.ytimg.com`) for timeline hover scrubbing at video upload time.
-  * Each sprite sheet contains a grid (e.g., 5x5 or 10x10) of timestamped preview frames spaced at regular intervals (typically every 2 to 10 seconds).
-  * Only a few tiny JPEG sheets (~50KB–200KB each) are fetched, covering the **entire video duration** (0:00 to end).
-* **Role in RAG:**
-  * Slices the sprites to extract baseline visual context alongside caption segments.
-  * Populates initial vector chunks for the whole video immediately upon page load.
-  * Enables questions about future topics ("What will be taught later at 20:00?") or past topics with baseline visual accuracy.
+### 5.3. Tier 2: Live Frame Watcher (Hash-Gated Progressive Enhancement)
+
+![Tier 2 flow: hash comparison, canvas frame, backend, VLM extraction, agent comparison against the Postgres chunk, update or skip](../assets/tier2_flow.png)
+
+*Flow: `browser → compare hash values → (no: no changes) / (yes: canvas frame) → backend [modification chunk API] → VLM extraction → agent (reads that timeframe's chunk from Postgres, not the vector DB, and compares) → update that chunk / do not update that chunk`*
+
+#### 5.3.1. Extension side (`content.js`): Frame Watcher
+* **Source:** The browser's active `<video>` element.
+* **Local sampling (cheap, no network):** While the video is **playing** and the tab is **visible**, sample a tiny downscaled frame every 2 to 5 seconds and compute a perceptual hash (e.g. dHash on an 8x8 / 9x8 grayscale copy; comparing 64 bits takes under 1 ms).
+* **Gate 1: hash comparison:**
+  * Compare against the hash of the **last frame sent**, not the last frame sampled. This lets slow, incremental changes (a slide building up line by line) eventually cross the threshold.
+  * Difference below threshold means the same slide or scene: **no changes, nothing is sent**.
+  * Difference at or above threshold means a candidate change.
+  * Bias the threshold toward sending. A missed change loses content permanently, while an extra send costs only a little compute.
+* **Settle check:** Before capturing, require two consecutive samples to match (about 1 s apart) so mid-transition or mid-animation frames are not sent.
+* **Seeks:** After a seek, wait for a short debounce (about 1 s) and then always send the first frame. The previous baseline is no longer relevant.
+* **Rate limit:** At most one send per **30 seconds**. This is a minimum gap between sends, not a fixed polling interval.
+* **Capture:**
+  ```javascript
+  canvas.getContext('2d').drawImage(video, 0, 0);
+  ```
+  Only the `<video>` element is drawn, never the surrounding page. Compress (e.g. JPEG) before sending without destroying text legibility.
+* **Payload:** `{ video_id, timestamp, sequence_number, frame }`. The sequence number lets the backend discard stale or out-of-order patches.
+* **Guards:** Skip if the frame is black (e.g. DRM-tainted canvas), if the video is paused, or if the tab is hidden.
+
+#### 5.3.2. Backend side: Modification Chunk API + Worker
+The endpoint validates and enqueues, returning `202`. A Redis queue worker runs the following steps, taking a **per-video lock** so only one patch job per video runs at a time:
+1. **Map timestamp to chunk:** Resolve `timestamp` to exactly one chunk `(video_id, chunk_index)`. Frames on a boundary map by a fixed rule.
+2. **VLM extraction:** Run the VLM on the full-resolution frame with a prompt tuned for code, LaTeX, slide text and diagram labels. Discard empty, refused or non-informative results (talking head, black frame).
+3. **Gate 2: decision agent:**
+   * The agent loads **only that timeframe's chunk from Postgres (Supabase), not from the vector DB**.
+   * It compares the new VLM text against the chunk's audio text and previously stored visual text.
+   * It answers whether the new text adds meaningful information (code, math, diagram detail) or is a duplicate or noise.
+   * It returns strict JSON:
+     ```json
+     { "update_required": true, "reason": "New LaTeX formula not present in stored chunk" }
+     ```
+   * **Cheap pre-check:** If text similarity to the existing visual text is above a high threshold, skip without calling the agent.
+   * **Fail open:** If the agent errors, update. Never lose an upgrade due to an agent failure.
+   * **Bias:** Lean toward updating when the new text contains code, equations, or notably more content.
+   * Every verdict is logged so the skip rate and sampled skips can be audited.
+4. **If `update_required` is false:** End the job. No merge, no re-embedding, no DB write.
+5. **If `update_required` is true:** Add the new VLM text to the chunk's frame results, rebuild `final_text` (audio text + visual text), re-embed, and update the Supabase row.
+
+#### 5.3.3. Chunk Record (Supabase Postgres)
+| Column | Purpose |
+|---|---|
+| `video_id`, `chunk_index`, `t_start`, `t_end` | Identity (unique constraint) |
+| `audio_text` | Caption text for the window (set in Tier 1, never changed) |
+| `vlm_text` | Merged visual text from Tier 2 frames. A chunk can hold **multiple frame results**, which are appended and merged, never overwritten, so a second slide in the same chunk does not replace the first. |
+| `visual_type` | Coarse type from Tier 1 (slide / code / diagram / talking head) |
+| `final_text` | `audio_text` merged with `vlm_text`. This is what gets embedded. |
+| `embedding` | Vector for `final_text` |
+| `version`, `updated_at`, `last_sequence` | Ordering, stale-patch rejection and idempotency |
 
 ---
 
-### 5.4. Tier 2: Live HTML5 Canvas (Progressive High-Res Enhancement)
-* **Source:** The browser's active `<video>` DOM element in `content.js`.
-* **Mechanism:**
-  * When a user is watching normally, or seeks to an arbitrary timestamp (e.g., jumps straight to 15:00), the browser hardware decodes the exact, full-resolution frame (720p/1080p/4K).
-  * An offscreen `<canvas>` captures the rendered frame with zero server compute:
-    ```javascript
-    canvas.getContext('2d').drawImage(video, 0, 0);
-    ```
-  * Dispatches high-resolution frame data for that active time window.
-* **Role in RAG:**
-  * **Targeted Upgrades:** The backend locates only the chunk matching the current `[timestamp_start, timestamp_end]`.
-  * **Patching Chunks:** Replaces or enriches the coarse storyboard visual data with pristine high-resolution visual extraction (high-accuracy OCR for dense code, blackboard math, and complex diagrams).
-  * **Progressive Quality:** As the user watches the video, chunks for the watched segments progressively upgrade to top-tier fidelity while unplayed portions remain covered by the Tier 1 storyboard baseline.
+### 5.4. Cost and Safety Controls
+* **Per-video patch cap** and per-user rate limit, so a flashing or animated video cannot run up the VLM bill. The VLM call is the dominant cost.
+* **Stale-patch guard:** Ignore patches whose `sequence_number` is not newer than `last_sequence`.
+* **Re-embed only when `final_text` actually changes.**
+* **Not-yet-processed chunks:** The assistant should degrade gracefully (answer from audio text and optionally indicate visual details are still processing).
+* **Privacy:** Only the video element is captured. No page overlays, comments or other content.
+
+---
+
+### 5.5. Core Problems Solved
+1. **Zero video stream downloads:** No 300MB+ downloads, no bot-IP blocking risk, no server transcoding.
+2. **Zero ingestion latency:** Tier 1 chunks are built immediately from captions without blocking the user.
+3. **Minimal redundant work:** The client hash gate, 30 s rate limit and backend decision agent keep network, VLM calls, queue jobs, DB writes and re-embeddings low.
+4. **Progressive quality:** Watched segments gain high-fidelity visual text over time. Unwatched segments rely on captions only. This is an accepted limit, because visual text for unplayed sections is not available.
 
 
