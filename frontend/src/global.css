@@ -1,0 +1,53 @@
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,800,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #09090b;
+  --color-background: #ffffff;
+  --color-foreground: #09090b;
+  --color-muted-foreground: #71717a;
+
+  /* Planet atmosphere chart tokens for light theme */
+  --color-chart-1: hsl(217 90% 50%); /* Electric cyan-blue (bottom right) */
+  --color-chart-2: hsl(158 75% 42%); /* Emerald teal (top right) */
+  --color-chart-3: hsl(38 95% 50%);  /* Solar golden amber (top left) */
+  --color-chart-4: hsl(280 65% 55%);
+  --color-chart-5: hsl(16 90% 50%);  /* Flame orange-red (bottom left) */
+
+  --chart-1: hsl(217 90% 50%);
+  --chart-2: hsl(158 75% 42%);
+  --chart-3: hsl(38 95% 50%);
+  --chart-4: hsl(280 65% 55%);
+  --chart-5: hsl(16 90% 50%);
+
+  --primary: #09090b;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #09090b;
+  --accent: #f4f4f5;
+  --accent-foreground: #09090b;
+  --card: #ffffff;
+  --card-foreground: #09090b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #18181b;
+}
+
+* {
+  font-family: 'Satoshi', sans-serif;
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  color: #09090b;
+  min-height: 100vh;
+}
