@@ -98,7 +98,6 @@ def validation_and_transformation(
     title = html.unescape(payload.get("title", "")).strip()
     channel_name = html.unescape(payload.get("channel_name", "")).strip()
     description = html.unescape(payload.get("description", "")).strip()
-    storyboard_spec = payload.get("storyboard_spec", "").strip()
 
     cleaned_segments: List[Dict[str, Any]] = []
     total_duration = 0.0
@@ -132,7 +131,6 @@ def validation_and_transformation(
         "channel_name": channel_name,
         "title": title,
         "description": description,
-        "storyboard_spec": storyboard_spec,
         "start_time": start_time,
         "total_segments": len(cleaned_segments),
         "total_duration": round(total_duration, 3),

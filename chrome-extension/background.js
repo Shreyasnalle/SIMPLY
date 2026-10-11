@@ -54,7 +54,6 @@ async function handleContextData(data) {
         channel_name: data.channel_name || '',
         title: data.title || '',
         description: data.description || '',
-        storyboard_spec: data.storyboard_spec || '',
         rawtext: data.rawtext
     };
 

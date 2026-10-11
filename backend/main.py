@@ -40,7 +40,6 @@ class VideoContextPayload(BaseModel):
     channel_name: Optional[str] = ""
     title: Optional[str] = ""
     description: Optional[str] = ""
-    storyboard_spec: Optional[str] = ""
     rawtext: str
 
 

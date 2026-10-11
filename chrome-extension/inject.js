@@ -9,12 +9,10 @@
 
     function getVideoMetadata() {
         const vd = window.ytInitialPlayerResponse?.videoDetails;
-        const sb = window.ytInitialPlayerResponse?.storyboards?.playerStoryboardSpecRenderer?.spec;
         return {
             channel_name: vd?.author || "",
             title: vd?.title || "",
-            description: vd?.shortDescription || "",
-            storyboard_spec: sb || ""
+            description: vd?.shortDescription || ""
         };
     }
 
@@ -35,7 +33,6 @@
                     channel_name: metadata.channel_name,
                     title: metadata.title,
                     description: metadata.description,
-                    storyboard_spec: metadata.storyboard_spec,
                     body: rawText
                 }
             })

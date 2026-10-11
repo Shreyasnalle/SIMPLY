@@ -235,7 +235,7 @@ window.addEventListener("yt-navigate-finish", () => {
 This section specifies how video visual context is captured for RAG without downloading full video streams, avoiding heavy server compute, high network bandwidth, and long ingestion latency.
 
 ### 5.1. Design Principles
-1. **Captions/audio are the primary text source (Tier 1).** Storyboard sprites are too low-resolution (roughly 48x27 to 320x180 per frame, sampled every few seconds) for OCR, code or math. They are never used for text extraction.
+1. **Captions/audio are the primary text source (Tier 1).** YouTube storyboard sprites were completely dropped from the pipeline because they are microscopic thumbnail previews (roughly 48x27 to 160x90 per tile). Attempting OCR on them causes severe hallucinations (fake code, garbled math) that corrupt vector retrieval, while fetching and slicing sprite sheets introduces brittle network overhead. Tier 1 relies cleanly on high-fidelity timestamped captions, video metadata, and description chapters.
 2. **The live frame is the only visual-text source (Tier 2).** Visual text (code, LaTeX, slide text, diagram labels) comes only from full-resolution canvas frames of what the user is actually watching.
 3. **Cheap gates come first, expensive ones last.** Client-side hash gate → rate limit → backend VLM → decision agent → DB write.
 4. **No video stream downloads.** No `yt-dlp`, no server-side transcoding, no ingestion latency.
@@ -244,20 +244,23 @@ This section specifies how video visual context is captured for RAG without down
 
 ### 5.2. Tier 1: Caption-Driven Baseline Chunks (Global Ingestion)
 
-![Tier 1 flow: browser to backend, storyboard chunk API, extraction, validation, transformation and chunking](../assets/tier1_flow.png)
+![Tier 1 flow: browser to backend, context chunk API, extraction, validation, transformation and chunking](../assets/tier1_flow.png)
 
-*Flow: `browser → (audio + storyboard + contextual info) → backend → [storyboard chunk API] → extraction + deserialization + validation + transformation (Redis) → chunking`*
+*Flow: `browser → (audio captions + metadata) → backend → [context ingest API] → extraction + deserialization + validation + transformation (Redis) → caption correction agent → chunking`*
+
+> [!NOTE]
+> **Context: Why Storyboard Sprites Were Dropped:**
+> Storyboard tiles were designed solely for scrub-bar hovering on YouTube. At 80×45 or 120×67 pixels with high JPEG compression, slide text and code lines are completely unreadable blur. Feeding these to a VLM forces it to guess and hallucinate. Eliminating storyboards makes Tier 1 ingestion immediate, zero-bandwidth, and immune to visual hallucinations, while Tier 2 captures full native-resolution frames whenever visual detail is needed.
 
 * **Trigger:** Once per video, on page load, from the `captions intercepted` flow (`inject.js → content.js → background.js`).
-* **Payload:** captions (audio text), storyboard metadata from `window.ytInitialPlayerResponse.storyboards`, title, description (including chapter timestamps), and the video URL.
+* **Payload:** captions (audio text with start/duration timestamps), channel name, title, description (including chapter timestamps), and the video URL.
 * **Backend processing (Redis queue worker):**
   * The endpoint does light schema/size validation, enqueues a job and returns `202 Accepted` with a `job_id`, so other API requests are never blocked.
-  * The worker performs extraction, deserialization, validation, transformation and then chunking of the entire video (0:00 to end).
+  * The worker performs extraction, deserialization, validation, transformation, runs the **Caption Correction Agent** (fixing phonetic errors like *"course"* → *"CORS"*), and then chunks the entire video (0:00 to end).
   * Chunks are embedded and stored (text/metadata in Supabase Postgres, vectors alongside).
 * **Chunk formation:**
-  * Boundaries come from caption sentence and pause boundaries, optionally aligned to storyboard scene changes (hashing adjacent sprite tiles), so each chunk is one coherent idea.
-  * Chunk text is the audio text, with title, description and chapter context attached.
-  * Storyboards contribute only light metadata: scene boundaries and a coarse `visual_type` (slide / code / diagram / talking head). This is also used to prioritize Tier 2 capture.
+  * Boundaries come from caption sentence/pause boundaries combined with description chapter markers, ensuring each chunk represents a single coherent concept.
+  * Chunk text is the corrected audio transcript, with title and chapter context attached.
 * **Idempotency:** Job IDs are deterministic (`video_id`) so retries never create duplicate chunks. Chunk identity is `(video_id, chunk_index)` with `t_start` and `t_end`.
 * **Limitations:** Videos with no or poor captions produce weak Tier 1 chunks. They should be flagged `low_text` so Tier 2 carries more weight.
 
@@ -313,7 +316,7 @@ The endpoint validates and enqueues, returning `202`. A Redis queue worker runs 
 | `video_id`, `chunk_index`, `t_start`, `t_end` | Identity (unique constraint) |
 | `audio_text` | Caption text for the window (set in Tier 1, never changed) |
 | `vlm_text` | Merged visual text from Tier 2 frames. A chunk can hold **multiple frame results**, which are appended and merged, never overwritten, so a second slide in the same chunk does not replace the first. |
-| `visual_type` | Coarse type from Tier 1 (slide / code / diagram / talking head) |
+| `visual_type` | Optional visual category (slide / code / diagram / talking head) classified from Tier 2 frames |
 | `final_text` | `audio_text` merged with `vlm_text`. This is what gets embedded. |
 | `embedding` | Vector for `final_text` |
 | `version`, `updated_at`, `last_sequence` | Ordering, stale-patch rejection and idempotency |

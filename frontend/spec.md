@@ -1,61 +1,35 @@
-# Frontend Design Specification
+# Frontend Design Specification (Dark Mode)
 
-## Primary Colors
-
-| Token | Hex Code | Description |
-| :--- | :--- | :--- |
-| **Primary** | `#C96442` | Primary brand accent (terracotta / coral) |
-| **Primary Foreground** | `#FFFFFF` | Text on primary elements |
-
-## Secondary Colors
-
-| Token | Hex Code | Description |
-| :--- | :--- | :--- |
-| **Secondary** | `#E9E6DC` | Warm parchment secondary background |
-| **Secondary Foreground** | `#535146` | Muted olive / charcoal text |
-
-## Accent Colors
-
-| Token | Hex Code | Description |
-| :--- | :--- | :--- |
-| **Accent** | `#E9E6DC` | Accent surface background |
-| **Accent Foreground** | `#28261B` | Deep dark bronze / charcoal text |
+## Overview
+Dark "planet horizon" theme based on shadcn semantic tokens and chart variables as used in `HorizonGlowHero.tsx`.
 
 ## Base Colors
 
-| Token | Hex Code | Description |
-| :--- | :--- | :--- |
-| **Background** | `#FAF9F5` | Base page parchment background |
-| **Foreground** | `#3D3929` | Base dark charcoal body text |
+| Token | CSS Variable | Value | Description |
+| :--- | :--- | :--- | :--- |
+| **Background** | `--background`, `--color-background` | `#09090b` | Deep dark space background |
+| **Foreground** | `--foreground`, `--color-foreground` | `#fafafa` | Bright starlight / high-contrast text |
+| **Muted Foreground** | `--color-muted-foreground` | `#a1a1aa` | Muted secondary text and elements |
 
-## Card Colors
+## Chart Tokens (Horizon Rim Glow)
+The planet horizon rim uses conic gradients mapped to chart tokens to create an atmospheric rim glow:
 
-| Token | Hex Code | Description |
-| :--- | :--- | :--- |
-| **Card** | `#F5F4EF` | Container / card surface |
-| **Card Foreground** | `#141413` | Text on card surfaces |
+| Token | CSS Variable | Value | Role in Horizon Rim |
+| :--- | :--- | :--- | :--- |
+| **Chart 1** | `--chart-1`, `--color-chart-1` | `hsl(220 70% 50%)` | Cosmic blue on the right (60°–180°) |
+| **Chart 2** | `--chart-2`, `--color-chart-2` | `hsl(160 60% 45%)` | Aurora teal near top-right (10°) |
+| **Chart 3** | `--chart-3`, `--color-chart-3` | `hsl(30 80% 55%)` | Solar yellow / amber near the top (350°) |
+| **Chart 4** | `--chart-4`, `--color-chart-4` | `hsl(280 65% 60%)` | Nebula purple |
+| **Chart 5** | `--chart-5`, `--color-chart-5` | `hsl(340 75% 55%)` | Solar crimson / red on the left (180°–300°) |
 
-## Muted Colors
+## UI & Surface Colors
 
-| Token | Hex Code | Description |
-| :--- | :--- | :--- |
-| **Muted** | `#EDE9DE` | Muted background fill |
-| **Muted Foreground** | `#6E6D68` | Muted secondary text |
-
-## Border & Input Colors
-
-| Token | Hex Code | Description |
-| :--- | :--- | :--- |
-| **Border** | `#DAD9D4` | Default container and card borders |
-| **Input** | `#B4B2A7` | Input field borders and placeholders |
-| **Ring** | `#C96442` | Focus rings and active highlights |
-
-## Chart Colors
-
-| Token | Hex Code |
-| :--- | :--- |
-| **Chart 1** | `#B05730` |
-| **Chart 2** | `#9C87F5` |
-| **Chart 3** | `#DED8C4` |
-| **Chart 4** | `#DBD3F0` |
-| **Chart 5** | `#B4552D` |
+| Token | CSS Variable | Value | Description |
+| :--- | :--- | :--- | :--- |
+| **Primary** | `--primary` | `#fafafa` | Primary text and highlight |
+| **Primary Foreground** | `--primary-foreground` | `#09090b` | Inverted primary text |
+| **Secondary** | `--secondary` | `#27272a` | Elevated surface / dark card |
+| **Muted** | `--muted` | `#27272a` | Muted background fill |
+| **Border** | `--border` | `#27272a` | Dark subtle border line |
+| **Input** | `--input` | `#27272a` | Input container border |
+| **Ring** | `--ring` | `#d4d4d8` | Subtle focus ring |

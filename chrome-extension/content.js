@@ -89,7 +89,6 @@ window.addEventListener("captions intercepted", (event) => {
         channel_name: detail.channel_name || "",
         title: detail.title || "",
         description: detail.description || "",
-        storyboard_spec: detail.storyboard_spec || "",
         rawtext: detail.body
     });
 });
