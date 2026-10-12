@@ -43,15 +43,6 @@ function sendLiveFrameUpdate() {
     });
 }
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.type === "GET_CURRENT_FRAME") {
-        sendResponse(captureCurrentFrame());
-    } else if (message.type === "SEND_FRAME_UPDATE") {
-        sendLiveFrameUpdate();
-        sendResponse({ ok: true });
-    }
-});
-
 // Sample when user seeks to a new timestamp
 document.addEventListener("seeked", (e) => {
     if (e.target && e.target.tagName === "VIDEO") {
@@ -72,9 +63,9 @@ window.addEventListener("captions intercepted", (event) => {
     if (!isWatchPage()) return;
 
     const detail = event.detail;
-    if (!detail || !detail.body || detail.body.length < 30) return;
+    if (!detail || !detail.rawtext || detail.rawtext.length < 30) return;
 
-    const vidMatch = (detail.sourceurl || "").match(/[?&]v=([^&]+)/);
+    const vidMatch = (detail.videourl || "").match(/[?&]v=([^&]+)/);
     const videoId = vidMatch ? vidMatch[1] : null;
 
     if (videoId && videoId === lastSentVideoId) {
@@ -84,12 +75,11 @@ window.addEventListener("captions intercepted", (event) => {
 
     chrome.runtime.sendMessage({
         type: "INITIAL_VIDEO_DATA",
-        videourl: detail.sourceurl,
-        trackurl: detail.trackurl || "",
+        videourl: detail.videourl || "",
         channel_name: detail.channel_name || "",
         title: detail.title || "",
         description: detail.description || "",
-        rawtext: detail.body
+        rawtext: detail.rawtext || ""
     });
 });
 

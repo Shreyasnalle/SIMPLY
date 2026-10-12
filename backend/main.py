@@ -36,8 +36,8 @@ app.add_middleware(PrivateNetworkMiddleware)
 
 class VideoContextPayload(BaseModel):
     videourl: str
-    trackurl: Optional[str] = ""
     channel_name: Optional[str] = ""
+    channelname: Optional[str] = ""
     title: Optional[str] = ""
     description: Optional[str] = ""
     rawtext: str

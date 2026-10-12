@@ -55,12 +55,11 @@ async function handleLiveFrameUpdate(data) {
 
 async function handleContextData(data) {
     const payload = {
-        videourl: data.videourl,
-        trackurl: data.trackurl || '',
+        videourl: data.videourl || '',
         channel_name: data.channel_name || '',
         title: data.title || '',
         description: data.description || '',
-        rawtext: data.rawtext
+        rawtext: data.rawtext || ''
     };
 
     const postResult = await postToBackend('/api/captions', payload);

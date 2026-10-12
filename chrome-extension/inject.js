@@ -25,7 +25,7 @@
         };
     }
 
-    function dispatchCaptions(videoUrl, trackUrl, rawText) {
+    function dispatchCaptions(videoUrl, rawText) {
         if (!rawText || rawText.length < 30) return;
         const videoIdMatch = videoUrl.match(/[?&]v=([^&]+)/);
         const videoId = videoIdMatch ? videoIdMatch[1] : null;
@@ -37,12 +37,11 @@
         window.dispatchEvent(
             new CustomEvent("captions intercepted", {
                 detail: {
-                    sourceurl: `https://www.youtube.com/watch?v=${videoId}`,
-                    trackurl: trackUrl || "",
+                    videourl: `https://www.youtube.com/watch?v=${videoId}`,
                     channel_name: metadata.channel_name,
                     title: metadata.title,
                     description: metadata.description,
-                    body: rawText
+                    rawtext: rawText
                 }
             })
         );
@@ -57,8 +56,10 @@
                 try {
                     const rawText = this.responseText;
                     const currentVideoId = new URLSearchParams(window.location.search).get("v");
-                    const videoUrl = `https://www.youtube.com/watch?v=${currentVideoId}`;
-                    dispatchCaptions(videoUrl, urlStr, rawText);
+                    if (currentVideoId && rawText) {
+                        const videoUrl = `https://www.youtube.com/watch?v=${currentVideoId}`;
+                        dispatchCaptions(videoUrl, rawText);
+                    }
                 } catch (err) {}
             }
         });
@@ -75,8 +76,10 @@
                     const cloned = response.clone();
                     const rawText = await cloned.text();
                     const currentVideoId = new URLSearchParams(window.location.search).get("v");
-                    const videoUrl = `https://www.youtube.com/watch?v=${currentVideoId}`;
-                    dispatchCaptions(videoUrl, urlStr, rawText);
+                    if (currentVideoId && rawText) {
+                        const videoUrl = `https://www.youtube.com/watch?v=${currentVideoId}`;
+                        dispatchCaptions(videoUrl, rawText);
+                    }
                 } catch (err) {}
             }
         }

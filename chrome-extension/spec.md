@@ -30,7 +30,7 @@ This document specifies the architecture, execution flow, and block-by-block imp
                    │
                    ▼
   3. Response Capture:
-     Extracts caption payload (rawText) & request URL (trackurl)
+     Extracts caption payload (rawText)
                    │
                    ▼
   4. Metadata Retrieval: getVideoMetadata()
@@ -89,7 +89,7 @@ function getVideoMetadata() {
 
 ### 3.3. Caption Dispatcher (`dispatchCaptions`)
 ```javascript
-function dispatchCaptions(videoUrl, trackUrl, rawText) {
+function dispatchCaptions(videoUrl, rawText) {
     if (!rawText || rawText.length < 30) return;
     const videoIdMatch = videoUrl.match(/[?&]v=([^&]+)/);
     const videoId = videoIdMatch ? videoIdMatch[1] : null;
@@ -101,18 +101,18 @@ function dispatchCaptions(videoUrl, trackUrl, rawText) {
     window.dispatchEvent(
         new CustomEvent("captions intercepted", {
             detail: {
-                sourceurl: `https://www.youtube.com/watch?v=${videoId}`,
-                trackurl: trackUrl || "",
-                body: rawText,
+                videourl: `https://www.youtube.com/watch?v=${videoId}`,
+                channel_name: metadata.channel_name,
                 title: metadata.title,
-                description: metadata.description
+                description: metadata.description,
+                rawtext: rawText
             }
         })
     );
 }
 ```
 * **Guard Clauses:** Ignores empty or malformed payloads (`rawText.length < 30`) and extracts the video ID.
-* **Payload Packaging:** Gathers the intercepted captions, the video URL, the caption track URL, the title, and the description into one consolidated bundle.
+* **Payload Packaging:** Gathers the intercepted captions, the video URL, the channel name, the title, and the description into one consolidated bundle.
 * **The Bridge:** Emits a native DOM `CustomEvent("captions intercepted")` on the `window` target, safely delivering clean structured data to `content.js`.
 
 ---
@@ -208,11 +208,12 @@ window.addEventListener("captions intercepted", (event) => {
     if (videoId) lastSentVideoId = videoId;
 
     chrome.runtime.sendMessage({
-        videourl: detail.sourceurl,
-        trackurl: detail.trackurl || "",
+        type: "INITIAL_VIDEO_DATA",
+        videourl: detail.videourl || "",
+        channel_name: detail.channel_name || "",
         title: detail.title || "",
         description: detail.description || "",
-        rawtext: detail.body
+        rawtext: detail.rawtext || ""
     });
 });
 
@@ -225,7 +226,7 @@ window.addEventListener("yt-navigate-finish", () => {
 1. **Watch Page Validation:** Guards against processing events outside `/watch?v=...`.
 2. **Event Listener (`captions intercepted`):** Catches the custom DOM event dispatched across the world boundary by `inject.js`.
 3. **Deduplication Gate (`lastSentVideoId`):** Ensures that multiple caption events for the same video are not forwarded repeatedly to the background worker.
-4. **Clean Handoff:** Packages `{ videourl, trackurl, title, description, rawtext }` and dispatches via `chrome.runtime.sendMessage()`.
+4. **Clean Handoff:** Packages `{ videourl, channel_name, title, description, rawtext }` and dispatches via `chrome.runtime.sendMessage()`.
 5. **SPA Reset:** Resets `lastSentVideoId` on `yt-navigate-finish` when the user transitions to another video.
 
 ---

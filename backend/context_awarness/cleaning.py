@@ -96,7 +96,7 @@ def validation_and_transformation(
     start_time = url_info.get("start_time", 0.0)
 
     title = html.unescape(payload.get("title", "")).strip()
-    channel_name = html.unescape(payload.get("channel_name", "")).strip()
+    channel_name = html.unescape(payload.get("channel_name", "") or payload.get("channelname", "")).strip()
     description = html.unescape(payload.get("description", "")).strip()
 
     cleaned_segments: List[Dict[str, Any]] = []
