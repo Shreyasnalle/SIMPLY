@@ -3,15 +3,21 @@ const BACKEND_URLS = ['http://localhost:8000', 'https://simply-kwrn.onrender.com
 const ingestedVideoIds = new Set();
 
 chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
-    if (data.type === 'INITIAL_VIDEO_DATA' || (data.videourl && data.rawtext)) {
+    if (data.type === 'INITIAL_VIDEO_DATA') {
         const vidMatch = (data.videourl || '').match(/[?&]v=([^&]+)/);
         const videoId = vidMatch ? vidMatch[1] : null;
 
-        if (videoId && ingestedVideoIds.has(videoId)) {
-            return false;
-        }
+        if (videoId) {
+            chrome.storage.local.set({
+                current_video_id: videoId,
+                current_video_url: data.videourl
+            });
 
-        if (videoId) ingestedVideoIds.add(videoId);
+            if (ingestedVideoIds.has(videoId)) {
+                return false;
+            }
+            ingestedVideoIds.add(videoId);
+        }
 
         handleContextData(data).catch(() => {});
         return false;

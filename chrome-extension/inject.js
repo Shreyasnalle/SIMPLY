@@ -9,10 +9,19 @@
 
     function getVideoMetadata() {
         const vd = window.ytInitialPlayerResponse?.videoDetails;
+        const shortDesc = vd?.shortDescription || "";
+
+        let description = "";
+        if (/(?:^|\n|\s)(?:\d{1,2}:)?\d{1,2}:\d{2}\b/.test(shortDesc)) {
+            description = shortDesc;
+        } else {
+            description = "";
+        }
+
         return {
             channel_name: vd?.author || "",
             title: vd?.title || "",
-            description: vd?.shortDescription || ""
+            description: description
         };
     }
 
@@ -20,7 +29,7 @@
         if (!rawText || rawText.length < 30) return;
         const videoIdMatch = videoUrl.match(/[?&]v=([^&]+)/);
         const videoId = videoIdMatch ? videoIdMatch[1] : null;
-        if (!videoId) return;
+        if (!videoId || spaLastFetchedVideoId === videoId) return;
 
         spaLastFetchedVideoId = videoId;
         const metadata = getVideoMetadata();
