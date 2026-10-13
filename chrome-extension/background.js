@@ -31,13 +31,20 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
     return false;
 });
 
-async function postToBackend(endpoint, body) {
+async function postToBackend(endpoint, payload) {
+    let serializedBody;
+    try {
+        serializedBody = typeof payload === 'string' ? payload : JSON.stringify(payload);
+    } catch (err) {
+        return null;
+    }
+
     for (const base of BACKEND_URLS) {
         try {
             const res = await fetch(`${base}${endpoint}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
+                body: serializedBody
             });
             if (res.ok) return { res, base };
         } catch (err) {}
@@ -46,11 +53,12 @@ async function postToBackend(endpoint, body) {
 }
 
 async function handleLiveFrameUpdate(data) {
-    await postToBackend('/api/frame-update', {
+    const payload = {
         videourl: data.videourl,
         timestamp: data.timestamp,
         image_data: data.image_data
-    });
+    };
+    await postToBackend('/api/frame-update', payload);
 }
 
 async function handleContextData(data) {
