@@ -41,6 +41,8 @@ const config: Config = {
         },
       },
       fontFamily: {
+        serif: ["var(--font-serif)", "Instrument Serif", "Georgia", "serif"],
+        sans: ["var(--font-sans)", "Plus Jakarta Sans", "Satoshi", "sans-serif"],
         satoshi: ["Satoshi", "sans-serif"],
       },
     },

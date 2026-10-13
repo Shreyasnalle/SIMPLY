@@ -18,7 +18,10 @@ export default function LandingPage() {
         <ResizableNavbar />
 
         {/* Celestial Horizon Glow Hero */}
-        <HorizonGlowHero className="h-svh" />
+        <HorizonGlowHero
+          className="h-svh"
+          title="Learning should'nt need ten tabs"
+        />
       </main>
     </>
   );

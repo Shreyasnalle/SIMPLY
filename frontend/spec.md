@@ -82,4 +82,6 @@ conic-gradient(
 1. **Dark Canvas Priority**: All page layouts must use `bg-background` (`#09090B`) and `text-foreground` (`#FAFAFA`).
 2. **Atmospheric Gradients**: Use linear or conic gradients combining Chart 5 (Flame Orange-Red) through Chart 1 (Electric Blue) for key callouts, border glows, or header accents.
 3. **Contrast & Borders**: Keep cards subtle with `border-border` (`#27272A`) and background `bg-card`/`bg-secondary` to let atmospheric glows draw focus.
-4. **Typography**: Satoshi or Inter sans-serif typeface with tight letter-spacing for large headlines (`tracking-[-0.024em]`) and high-contrast rendering.
+4. **Typography**:
+   - **Headlines & Display (`font-serif`)**: High-contrast Editorial Serif (**Instrument Serif**, with Georgia fallback). Used for the main hero headline, section titles, and display text with elegant tracking and optical high-contrast stroke weights.
+   - **Body & UI Elements (`font-sans`)**: Clean modern sans-serif (**Plus Jakarta Sans** / **Satoshi** / **Inter**) for navigation items, badges, body copy, and action buttons.

@@ -6,7 +6,6 @@ import {
   motion,
   useMotionTemplate,
   useMotionValue,
-  useReducedMotion,
   useTransform,
   type MotionValue,
 } from "motion/react";
@@ -156,8 +155,6 @@ export function HorizonGlowHero({
   rimGradient = DEFAULT_RIM,
   className,
 }: HorizonGlowHeroProps) {
-  const prefersReducedMotion = useReducedMotion();
-  const still = Boolean(prefersReducedMotion);
   const sectionRef = React.useRef<HTMLElement>(null);
   const edgeId = React.useId();
 
@@ -165,7 +162,10 @@ export function HorizonGlowHero({
   const progress = useMotionValue(0);
 
   useIsomorphicLayoutEffect(() => {
-    if (still) {
+    const isReduced =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (isReduced) {
       progress.set(1);
       return;
     }
@@ -196,7 +196,7 @@ export function HorizonGlowHero({
       win.removeEventListener("resize", onScroll);
       if (raf) win.cancelAnimationFrame(raf);
     };
-  }, [still, progress]);
+  }, [progress]);
 
   /* timeline — each layer owns a slice of the scroll */
   const edgeOpacity = useStep(progress, [0, 0.2], [0, 1]);
@@ -256,33 +256,31 @@ export function HorizonGlowHero({
 
         {/* falling light that runs down the hairlines themselves: each streak
             is snapped to a hairline column (multiples of the 10px spacing) */}
-        {!still && (
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 overflow-hidden"
-          >
-            {STREAKS.map((s) => (
-              <motion.div
-                key={s.left}
-                className="absolute top-0 h-[360px] w-px origin-top-left"
-                style={{
-                  left: `round(down, ${s.left}, 10px)`,
-                  scaleY: s.scaleY,
-                  background:
-                    "linear-gradient(transparent, color-mix(in oklab, var(--color-foreground) 85%, transparent) 50%, transparent)",
-                }}
-                initial={{ y: "-100%", opacity: 0 }}
-                animate={{ y: ["-100%", "260%"], opacity: [0, s.peak, 0] }}
-                transition={{
-                  duration: s.duration,
-                  delay: s.delay,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
-              />
-            ))}
-          </div>
-        )}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 overflow-hidden motion-reduce:hidden"
+        >
+          {STREAKS.map((s) => (
+            <motion.div
+              key={s.left}
+              className="absolute top-0 h-[360px] w-px origin-top-left"
+              style={{
+                left: `round(down, ${s.left}, 10px)`,
+                scaleY: s.scaleY,
+                background:
+                  "linear-gradient(transparent, color-mix(in oklab, var(--color-foreground) 85%, transparent) 50%, transparent)",
+              }}
+              initial={{ y: "-100%", opacity: 0 }}
+              animate={{ y: ["-100%", "260%"], opacity: [0, s.peak, 0] }}
+              transition={{
+                duration: s.duration,
+                delay: s.delay,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+          ))}
+        </div>
 
         {/* optional headline block — only rendered when content is given */}
         {(eyebrow || title || children) && (
@@ -303,12 +301,12 @@ export function HorizonGlowHero({
                 </motion.p>
               )}
               {title && (
-                <motion.h2
+                <motion.h1
                   style={{ opacity: titleOpacity, filter: titleFilter }}
-                  className="max-w-full text-balance text-[40px] font-semibold leading-none tracking-[-0.024em] text-foreground will-change-[filter,opacity] sm:text-[48px] md:text-[56px] lg:text-[72px] xl:text-[96px]"
+                  className="max-w-4xl text-balance font-serif font-normal text-foreground will-change-[filter,opacity] text-[42px] leading-[1.08] tracking-[-0.015em] sm:text-[56px] md:text-[70px] lg:text-[84px] xl:text-[96px]"
                 >
                   {title}
-                </motion.h2>
+                </motion.h1>
               )}
               {children && (
                 <motion.div
