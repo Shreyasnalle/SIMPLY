@@ -20,11 +20,11 @@ export function ResizableNavbar() {
       link: "#features",
     },
     {
-      name: "Pricing",
+      name: "Working",
       link: "#pricing",
     },
     {
-      name: "About",
+      name: "Pricing",
       link: "#about",
     },
     {
