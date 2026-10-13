@@ -10,6 +10,7 @@ import {
   type MotionValue,
 } from "motion/react";
 import { cn } from "@/lib/utils";
+import { TextLoop } from "@/components/text-loop";
 
 /* ── types ───────────────────────────────────────────────────── */
 
@@ -282,43 +283,61 @@ export function HorizonGlowHero({
           ))}
         </div>
 
-        {/* optional headline block — only rendered when content is given */}
-        {(eyebrow || title || children) && (
-          <div
-            className="absolute inset-x-0 z-20 flex flex-col items-center px-6"
-            style={{ bottom: "calc(var(--cap) + 4rem)" }}
+        {/* Headline — always rendered, split into two stacked lines */}
+        <div
+          className="absolute inset-x-0 z-20 flex flex-col items-center px-6"
+          style={{ bottom: "calc(var(--cap) + 3rem)" }}
+        >
+          <motion.div
+            style={{ y: textY }}
+            className="flex w-full max-w-5xl flex-col items-center gap-2 text-center"
           >
-            <motion.div
-              style={{ y: textY }}
-              className="flex max-w-full flex-col items-center gap-1 text-center"
-            >
-              {eyebrow && (
-                <motion.p
-                  style={{ opacity: eyebrowOpacity, filter: eyebrowFilter }}
-                  className="text-sm text-muted-foreground will-change-[filter,opacity] sm:text-base"
-                >
-                  {eyebrow}
-                </motion.p>
-              )}
-              {title && (
-                <motion.h1
-                  style={{ opacity: titleOpacity, filter: titleFilter }}
-                  className="max-w-4xl text-balance font-serif font-normal text-foreground will-change-[filter,opacity] text-[42px] leading-[1.08] tracking-[-0.015em] sm:text-[56px] md:text-[70px] lg:text-[84px] xl:text-[96px]"
-                >
-                  {title}
-                </motion.h1>
-              )}
-              {children && (
-                <motion.div
-                  style={{ opacity: titleOpacity, filter: titleFilter }}
-                  className="mt-6"
-                >
-                  {children}
-                </motion.div>
-              )}
-            </motion.div>
-          </div>
-        )}
+            {eyebrow && (
+              <motion.p
+                style={{ opacity: eyebrowOpacity, filter: eyebrowFilter }}
+                className="text-sm text-muted-foreground will-change-[filter,opacity] sm:text-base"
+              >
+                {eyebrow}
+              </motion.p>
+            )}
+
+            <div className="flex w-full flex-col items-center">
+              {/* Line 1 — static, always in place */}
+              <motion.h1
+                style={{ opacity: titleOpacity, filter: titleFilter }}
+                className="w-full font-serif font-normal text-foreground will-change-[filter,opacity] text-[clamp(2.2rem,5.5vw,6rem)] leading-[1.1] tracking-[-0.015em]"
+              >
+                Learning shouldn&apos;t need
+              </motion.h1>
+
+              {/* Line 2 — rotating tags, fixed below line 1 */}
+              <motion.div
+                style={{ opacity: titleOpacity, filter: titleFilter }}
+                className="w-full will-change-[filter,opacity]"
+              >
+                <TextLoop
+                  staticText=""
+                  rotatingTexts={[
+                    "ten tabs",
+                    "vague answers",
+                    "rewinding twice",
+                  ]}
+                  interval={3000}
+                  className="text-[clamp(2.2rem,5.5vw,6rem)] leading-[1.1] justify-center"
+                />
+              </motion.div>
+            </div>
+
+            {children && (
+              <motion.div
+                style={{ opacity: titleOpacity, filter: titleFilter }}
+                className="mt-4"
+              >
+                {children}
+              </motion.div>
+            )}
+          </motion.div>
+        </div>
 
         {/* halo behind the arc */}
         <div

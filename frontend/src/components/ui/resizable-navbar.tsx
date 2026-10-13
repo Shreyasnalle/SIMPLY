@@ -99,8 +99,8 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         minWidth: "800px",
       }}
       className={cn(
-        "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 lg:flex dark:bg-transparent",
-        visible && "bg-white/80 dark:bg-neutral-950/80",
+        "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full border border-border bg-card px-4 py-2 font-sans lg:flex",
+        visible && "border-input bg-card",
         className,
       )}
     >
@@ -116,7 +116,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
     <motion.div
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
+        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-300 transition duration-200 hover:text-white lg:flex lg:space-x-2",
         className,
       )}
     >
@@ -124,7 +124,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
         <a
           onMouseEnter={() => setHovered(idx)}
           onClick={onItemClick}
-          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
+          className="relative px-4 py-2 text-zinc-300 dark:text-zinc-300"
           key={`link-${idx}`}
           href={item.link}
         >
@@ -161,8 +161,8 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
         damping: 50,
       }}
       className={cn(
-        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
-        visible && "bg-white/80 dark:bg-neutral-950/80",
+        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between rounded-full border border-border bg-card px-0 py-2 font-sans lg:hidden",
+        visible && "border-input bg-card",
         className,
       )}
     >
@@ -201,7 +201,7 @@ export const MobileNavMenu = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className={cn(
-            "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-neutral-950",
+            "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg border border-white/20 bg-zinc-950/95 px-4 py-8 font-sans text-white shadow-[0_0_24px_rgba(34,_42,_53,_0.25)] dark:bg-zinc-950/95",
             className,
           )}
         >
@@ -236,16 +236,9 @@ export const NavbarLogo = ({
   return (
     <a
       href={href}
-      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-bold tracking-wider text-black dark:text-white"
+      className="relative z-20 mr-4 flex items-center px-2 py-1 font-sans text-sm font-semibold tracking-wider text-white"
     >
-      <img
-        src="https://assets.aceternity.com/logo-dark.png"
-        alt="logo"
-        width={24}
-        height={24}
-        className="invert dark:invert-0"
-      />
-      <span className="font-bold text-black dark:text-white">{title}</span>
+      <span>{title}</span>
     </a>
   );
 };

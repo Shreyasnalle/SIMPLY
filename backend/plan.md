@@ -33,11 +33,16 @@ Both Tier 1 (global captions) and Tier 2 (live visual frame) pass through the st
 [Raw Ingest Payload]
         │
         ▼
-1. Extracting URL & Metadata (`extracting.py`)
+1. Payload Deserialization (`deserialization.py`)
+   - Deserializes raw JSON string/bytes received from `background.js` into structured Python dictionaries.
+   - Validates presence of required keys (`videourl`, `rawtext`, `channel_name`, `title`, `description`).
+        │
+        ▼
+2. Extracting URL & Metadata (`extracting.py`)
    - YouTube video ID extraction, canonical URL normalization, timestamp parsing.
         │
         ▼
-2. Deserialisation (`cleaning.py`)
+3. Caption Deserialisation & Cleaning (`cleaning.py`)
    - Robust parsing of raw timedtext formats (JSON3 format, XML `<p>` or `<text>`, plain text fallback).
         │
         ▼

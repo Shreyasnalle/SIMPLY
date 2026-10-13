@@ -2,9 +2,10 @@ import html
 import json
 import re
 import xml.etree.ElementTree as ET
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Union
 
 from .extracting import extractingurl
+from .deserialization import deserialize_video_context
 
 
 def deserialisation(rawtext: str) -> List[Dict[str, Any]]:
@@ -138,8 +139,9 @@ def validation_and_transformation(
     }
 
 
-def clean_context_pipeline(payload: Dict[str, Any]) -> Dict[str, Any]:
-    url_info = extractingurl(payload.get("videourl", ""))
-    raw_segments = deserialisation(payload.get("rawtext", ""))
-    cleaned_context = validation_and_transformation(url_info, payload, raw_segments)
+def clean_context_pipeline(payload: Union[str, bytes, Dict[str, Any]]) -> Dict[str, Any]:
+    deserialized_payload = deserialize_video_context(payload)
+    url_info = extractingurl(deserialized_payload.get("videourl", ""))
+    raw_segments = deserialisation(deserialized_payload.get("rawtext", ""))
+    cleaned_context = validation_and_transformation(url_info, deserialized_payload, raw_segments)
     return cleaned_context

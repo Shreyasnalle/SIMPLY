@@ -53,11 +53,11 @@ conic-gradient(
 | **Secondary Foreground** | `--secondary-foreground` | `#FAFAFA` | Text on secondary elements |
 | **Accent** | `--accent` | `#27272A` | Hover states and active navigation chips |
 | **Accent Foreground** | `--accent-foreground` | `#FAFAFA` | Text on accent surfaces |
-| **Card** | `--card` | `#09090B` | Card container background |
+| **Card** | `--card` | `#101013` | Card container background |
 | **Card Foreground** | `--card-foreground` | `#FAFAFA` | Headings and text inside cards |
 | **Muted** | `--muted` | `#27272A` | Muted background fill |
-| **Border** | `--border` | `#27272A` | Structural dividers, card borders, hairline outlines |
-| **Input** | `--input` | `#27272A` | Form field borders and inactive outlines |
+| **Border** | `--border` | `rgba(255, 255, 255, 0.08)` | Structural dividers, card borders, hairline outlines |
+| **Input** | `--input` | `rgba(255, 255, 255, 0.14)` | Form field borders and inactive outlines |
 | **Ring** | `--ring` | `#D4D4D8` | Focus rings and keyboard navigation outlines |
 
 ---

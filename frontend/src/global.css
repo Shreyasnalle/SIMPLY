@@ -35,12 +35,12 @@
   --secondary-foreground: #fafafa;
   --accent: #27272a;
   --accent-foreground: #fafafa;
-  --card: #09090b;
+  --card: #101013;
   --card-foreground: #fafafa;
   --muted: #27272a;
   --muted-foreground: #a1a1aa;
-  --border: #27272a;
-  --input: #27272a;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.14);
   --ring: #d4d4d8;
 }
 
@@ -60,4 +60,3 @@ html, body {
 h1, h2, h3, h4, .font-serif, .font-editorial {
   font-family: var(--font-serif);
 }
-

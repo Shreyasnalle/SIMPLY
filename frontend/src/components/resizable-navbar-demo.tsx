@@ -42,8 +42,8 @@ export function ResizableNavbar() {
         <NavbarLogo title="Simply" />
         <NavItems items={navItems} />
         <div className="flex items-center gap-4">
-          <NavbarButton variant="secondary">Login</NavbarButton>
-          <NavbarButton variant="primary">Get Extension</NavbarButton>
+          <NavbarButton variant="secondary">Sign in</NavbarButton>
+          <NavbarButton variant="primary">Sign up</NavbarButton>
         </div>
       </NavBody>
 
@@ -77,14 +77,14 @@ export function ResizableNavbar() {
               variant="secondary"
               className="w-full"
             >
-              Login
+              Sign in
             </NavbarButton>
             <NavbarButton
               onClick={() => setIsMobileMenuOpen(false)}
               variant="primary"
               className="w-full"
             >
-              Get Extension
+              Sign up
             </NavbarButton>
           </div>
         </MobileNavMenu>
