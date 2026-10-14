@@ -285,12 +285,12 @@ export function HorizonGlowHero({
 
         {/* Headline — always rendered, split into two stacked lines */}
         <div
-          className="absolute inset-x-0 z-20 flex flex-col items-center px-6"
+          className="absolute inset-x-0 z-40 flex flex-col items-center px-6"
           style={{ bottom: "calc(var(--cap) + 3rem)" }}
         >
           <motion.div
             style={{ y: textY }}
-            className="flex w-full max-w-5xl flex-col items-center gap-2 text-center"
+            className="relative z-40 flex w-full max-w-5xl flex-col items-center gap-2 text-center"
           >
             {eyebrow && (
               <motion.p

@@ -2,7 +2,6 @@ import React from "react";
 import Head from "next/head";
 import HorizonGlowHero from "@/components/HorizonGlowHero";
 import ResizableNavbar from "@/components/resizable-navbar-demo";
-import { ShinyButton } from "@/components/ui/shiny-button";
 
 export default function LandingPage() {
   return (
@@ -29,7 +28,6 @@ export default function LandingPage() {
             coding, math, diagrammatic video lectures, and live streams as
             well—more capable than YouTube&apos;s own video RAG.
           </p>
-          <ShinyButton className="mt-5">Get Extension</ShinyButton>
         </HorizonGlowHero>
       </main>
     </>
