@@ -83,11 +83,11 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
   return (
     <motion.div
       animate={{
-        backdropFilter: visible ? "blur(10px)" : "none",
+        backdropFilter: "blur(12px)",
         boxShadow: visible
-          ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
-          : "none",
-        width: visible ? "40%" : "100%",
+          ? "0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.15) inset"
+          : "0 4px 20px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.08)",
+        width: visible ? "45%" : "100%",
         y: visible ? 20 : 0,
       }}
       transition={{
@@ -96,11 +96,11 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         damping: 50,
       }}
       style={{
-        minWidth: "800px",
+        minWidth: "720px",
       }}
       className={cn(
-        "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full border border-border bg-card px-4 py-2 font-sans lg:flex",
-        visible && "border-input bg-card",
+        "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full border border-zinc-700/80 bg-zinc-900/85 px-5 py-2.5 font-sans backdrop-blur-md lg:flex",
+        visible && "border-zinc-600/90 bg-zinc-950/90",
         className,
       )}
     >
@@ -124,14 +124,14 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
         <a
           onMouseEnter={() => setHovered(idx)}
           onClick={onItemClick}
-          className="relative px-4 py-2 text-zinc-300 dark:text-zinc-300"
+          className="relative px-4 py-2 text-zinc-300 hover:text-white transition-colors duration-150"
           key={`link-${idx}`}
           href={item.link}
         >
           {hovered === idx && (
             <motion.div
               layoutId="hovered"
-              className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800"
+              className="absolute inset-0 h-full w-full rounded-full bg-zinc-800/80 border border-zinc-700/60"
             />
           )}
           <span className="relative z-20">{item.name}</span>
@@ -145,14 +145,14 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
   return (
     <motion.div
       animate={{
-        backdropFilter: visible ? "blur(10px)" : "none",
+        backdropFilter: "blur(12px)",
         boxShadow: visible
-          ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
-          : "none",
+          ? "0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1)"
+          : "0 4px 20px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.08)",
         width: visible ? "90%" : "100%",
         paddingRight: visible ? "12px" : "0px",
         paddingLeft: visible ? "12px" : "0px",
-        borderRadius: visible ? "4px" : "2rem",
+        borderRadius: visible ? "8px" : "2rem",
         y: visible ? 20 : 0,
       }}
       transition={{
@@ -161,8 +161,8 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
         damping: 50,
       }}
       className={cn(
-        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between rounded-full border border-border bg-card px-0 py-2 font-sans lg:hidden",
-        visible && "border-input bg-card",
+        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between rounded-full border border-zinc-700/80 bg-zinc-900/85 px-4 py-2 font-sans backdrop-blur-md lg:hidden",
+        visible && "border-zinc-600/90 bg-zinc-950/90",
         className,
       )}
     >
@@ -294,28 +294,52 @@ export function ResizableNavbar() {
 
   return (
     <Navbar>
+      {/* Desktop Navigation */}
       <NavBody>
         <NavbarLogo title="Simply" />
         <NavItems items={navItems} />
         <div className="flex items-center gap-4">
-          <NavbarButton variant="secondary">Sign in</NavbarButton>
-          <NavbarButton variant="primary">Get Extension</NavbarButton>
+          <NavbarButton
+            variant="primary"
+            className="!bg-white !text-black font-semibold rounded-full px-5 py-1.5 hover:!bg-zinc-200 transition-colors shadow-sm"
+          >
+            Login
+          </NavbarButton>
         </div>
       </NavBody>
+
+      {/* Mobile Navigation */}
       <MobileNav>
         <MobileNavHeader>
           <NavbarLogo title="Simply" />
-          <MobileNavToggle isOpen={isMobileMenuOpen} onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+          <MobileNavToggle
+            isOpen={isMobileMenuOpen}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          />
         </MobileNavHeader>
-        <MobileNavMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)}>
+
+        <MobileNavMenu
+          isOpen={isMobileMenuOpen}
+          onClose={() => setIsMobileMenuOpen(false)}
+        >
           {navItems.map((item, idx) => (
-            <a key={`mobile-link-${idx}`} href={item.link} onClick={() => setIsMobileMenuOpen(false)} className="relative text-zinc-300">
+            <a
+              key={`mobile-link-${idx}`}
+              href={item.link}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="relative text-zinc-300 font-sans"
+            >
               <span className="block">{item.name}</span>
             </a>
           ))}
           <div className="flex w-full flex-col gap-4">
-            <NavbarButton onClick={() => setIsMobileMenuOpen(false)} variant="secondary" className="w-full">Sign in</NavbarButton>
-            <NavbarButton onClick={() => setIsMobileMenuOpen(false)} variant="primary" className="w-full">Get Extension</NavbarButton>
+            <NavbarButton
+              onClick={() => setIsMobileMenuOpen(false)}
+              variant="primary"
+              className="w-full !bg-white !text-black font-semibold rounded-full py-2 hover:!bg-zinc-200 transition-colors shadow-sm"
+            >
+              Login
+            </NavbarButton>
           </div>
         </MobileNavMenu>
       </MobileNav>

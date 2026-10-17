@@ -11,6 +11,7 @@ import {
 } from "motion/react";
 import { cn } from "@/lib/utils";
 import { TextLoop } from "@/components/text-loop";
+import { LiquidMetalButton } from "@/components/ui/liquid-metal-button";
 
 /* ── types ───────────────────────────────────────────────────── */
 
@@ -239,8 +240,8 @@ export function HorizonGlowHero({
             // the bottom-left and bottom-right corners exactly:
             //   D = (W²/4 + h²) / h  with h = 0.2W  →  D = 1.45W
             containerType: "inline-size",
-            "--orb": "145cqw",
-            "--cap": "20cqw",
+            "--orb": "160cqw",
+            "--cap": "22vh",
           } as React.CSSProperties
         }
       >
@@ -283,19 +284,22 @@ export function HorizonGlowHero({
           ))}
         </div>
 
-        {/* Headline — always rendered, split into two stacked lines */}
+        {/* Hero content — texts present around 50% height of screen, with button directly below */}
         <div
           className="absolute inset-x-0 z-40 flex flex-col items-center px-6"
-          style={{ bottom: "calc(var(--cap) + 3rem)" }}
+          style={{
+            top: "45%",
+            transform: "translateY(-50%)",
+          }}
         >
           <motion.div
             style={{ y: textY }}
-            className="relative z-40 flex w-full max-w-5xl flex-col items-center gap-2 text-center"
+            className="relative z-40 flex w-full max-w-4xl flex-col items-center text-center"
           >
             {eyebrow && (
               <motion.p
                 style={{ opacity: eyebrowOpacity, filter: eyebrowFilter }}
-                className="text-sm text-muted-foreground will-change-[filter,opacity] sm:text-base"
+                className="mb-2 text-sm text-muted-foreground will-change-[filter,opacity] sm:text-base font-sans"
               >
                 {eyebrow}
               </motion.p>
@@ -305,7 +309,7 @@ export function HorizonGlowHero({
               {/* Line 1 — static, always in place */}
               <motion.h1
                 style={{ opacity: titleOpacity, filter: titleFilter }}
-                className="w-full font-serif font-normal text-foreground will-change-[filter,opacity] text-[clamp(2.2rem,5.5vw,6rem)] leading-[1.1] tracking-[-0.015em]"
+                className="w-full font-serif font-normal text-foreground will-change-[filter,opacity] text-[clamp(2.2rem,5vw,5rem)] leading-[1.1] tracking-[-0.015em]"
               >
                 Learning shouldn&apos;t need
               </motion.h1>
@@ -313,7 +317,7 @@ export function HorizonGlowHero({
               {/* Line 2 — rotating tags, fixed below line 1 */}
               <motion.div
                 style={{ opacity: titleOpacity, filter: titleFilter }}
-                className="w-full will-change-[filter,opacity]"
+                className="w-full will-change-[filter,opacity] mt-1"
               >
                 <TextLoop
                   staticText=""
@@ -323,10 +327,26 @@ export function HorizonGlowHero({
                     "rewinding twice",
                   ]}
                   interval={3000}
-                  className="text-[clamp(2.2rem,5.5vw,6rem)] leading-[1.1] justify-center"
+                  className="text-[clamp(2.2rem,5vw,5rem)] leading-[1.1] justify-center"
                 />
               </motion.div>
             </div>
+
+            {/* Paragraph present above the button */}
+            <motion.p
+              style={{ opacity: titleOpacity, filter: titleFilter }}
+              className="mt-5 max-w-2xl font-sans text-sm sm:text-base font-normal text-zinc-400 leading-relaxed will-change-[filter,opacity]"
+            >
+              Simply provides an in-tab YouTube extension, specifically curated for educational purposes, with the capabilities to support theory, coding, math, diagrammatic video lectures, and live streams as well—more capable than YouTube&apos;s own video RAG.
+            </motion.p>
+
+            {/* Get Extension button present below the paragraph */}
+            <motion.div
+              style={{ opacity: titleOpacity, filter: titleFilter }}
+              className="mt-7 flex items-center justify-center will-change-[filter,opacity]"
+            >
+              <LiquidMetalButton label="Get Extension" />
+            </motion.div>
 
             {children && (
               <motion.div
