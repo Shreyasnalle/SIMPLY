@@ -54,7 +54,7 @@ Both Tier 1 (global captions) and Tier 2 (live visual frame) pass through the st
 
 ---
 
-## 3. Tier 1: Caption Ingestion & Agentic Chunking Flow
+## 3. Tier 1: Caption Ingestion & Agentic Chunking Flo
 
 ### 3.1 Flow
 ```
