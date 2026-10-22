@@ -3,7 +3,7 @@ from typing import Any, Dict, List
 
 
 _CHAPTER_PATTERN = re.compile(
-    r"^\s*((?:\d{1,2}:)?\d{1,2}:\d{2})\s+(.+?)\s*$"
+    r"^[\s\-\u2013\u2014*\u2022>(\[]*((?:\d{1,2}:)?\d{1,2}:\d{2})[)\]]?[\s\-\u2013\u2014:|]+(.+?)\s*$"
 )
 
 

@@ -3,20 +3,20 @@ from typing import Any, Dict, Optional
 from urllib.parse import parse_qs, urlparse
 
 
+_TIME_PATTERN = re.compile(r"(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?")
+
+
 def _parse_time(time_value: str) -> float:
-    try:
-        value = time_value.lower().rstrip("s")
-        if "m" in value:
-            minutes, seconds = value.split("m", 1)
-            return float(minutes) * 60.0 + (float(seconds) if seconds else 0.0)
-        return float(value)
-    except (TypeError, ValueError):
+    match = _TIME_PATTERN.fullmatch(time_value.lower())
+    if not match:
         return 0.0
+    hours, minutes, seconds = (int(part or 0) for part in match.groups())
+    return float(hours * 3600 + minutes * 60 + seconds)
 
 
 def extract_videourl(videourl: str) -> Dict[str, Any]:
     if not isinstance(videourl, str) or not videourl.strip():
-        return {"videourl": "", "video_id": None, "start_time": 0.0}
+        return {"videourl": "", "video_id": None, "canonical_url": "", "start_time": 0.0}
 
     videourl = videourl.strip()
     parsed = urlparse(videourl)
