@@ -28,7 +28,7 @@ def extract_description(description: str) -> Dict[str, Any]:
         if match:
             timestamp, title = match.groups()
             chapters.append({
-                "title": title.strip(),
+                "chapter_name": title.strip(),
                 "start": _timestamp_to_seconds(timestamp),
             })
         else:

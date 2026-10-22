@@ -17,6 +17,6 @@ def extract_context(deserialized_data: Dict[str, Any]) -> Dict[str, Any]:
         "videourl": videourl_data,
         "description": description_data,
         "rawtext": rawtext_data,
-        "channel_name": deserialized_data.get("channel_name", ""),
+        "channel_name": deserialized_data.get("channel_name") or deserialized_data.get("channelname", ""),
         "title": deserialized_data.get("title", ""),
     }
