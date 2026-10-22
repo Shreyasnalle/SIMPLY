@@ -9,19 +9,11 @@
 
     function getVideoMetadata() {
         const vd = window.ytInitialPlayerResponse?.videoDetails;
-        const shortDesc = vd?.shortDescription || "";
-
-        let description = "";
-        if (/(?:^|\n|\s)(?:\d{1,2}:)?\d{1,2}:\d{2}\b/.test(shortDesc)) {
-            description = shortDesc;
-        } else {
-            description = "";
-        }
 
         return {
             channel_name: vd?.author || "",
             title: vd?.title || "",
-            description: description
+            description: vd?.shortDescription || ""
         };
     }
 
@@ -37,7 +29,7 @@
         window.dispatchEvent(
             new CustomEvent("captions intercepted", {
                 detail: {
-                    videourl: `https://www.youtube.com/watch?v=${videoId}`,
+                    videourl: videoUrl,
                     channel_name: metadata.channel_name,
                     title: metadata.title,
                     description: metadata.description,
@@ -55,11 +47,7 @@
             if (urlStr.includes("timedtext")) {
                 try {
                     const rawText = this.responseText;
-                    const currentVideoId = new URLSearchParams(window.location.search).get("v");
-                    if (currentVideoId && rawText) {
-                        const videoUrl = `https://www.youtube.com/watch?v=${currentVideoId}`;
-                        dispatchCaptions(videoUrl, rawText);
-                    }
+                    dispatchCaptions(window.location.href, rawText);
                 } catch (err) {}
             }
         });
@@ -75,11 +63,7 @@
                 try {
                     const cloned = response.clone();
                     const rawText = await cloned.text();
-                    const currentVideoId = new URLSearchParams(window.location.search).get("v");
-                    if (currentVideoId && rawText) {
-                        const videoUrl = `https://www.youtube.com/watch?v=${currentVideoId}`;
-                        dispatchCaptions(videoUrl, rawText);
-                    }
+                    dispatchCaptions(window.location.href, rawText);
                 } catch (err) {}
             }
         }
