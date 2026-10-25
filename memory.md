@@ -99,6 +99,15 @@ Principle: the extension only **captures and forwards**. No parsing of captions,
 - `validation.py`: raises `ValueError` without a `video_id`; drops captions that are blank, non-speech (`[Music]`/`[Applause]`), or have negative/NaN/backwards times; drops chapters with negative or duplicate starts.
 - `transformation.py`: HTML-unescape and whitespace-normalize text, strip `>>` speaker markers, round times to 3 dp, sort, merge consecutive duplicate captions, build the canonical URL, resolve `channel_name` or `channelname`, compute chapter ends. Output is a `CleanContext` (`schemas.py`).
 
+### `context_awarness/caption_correction/` (background, after transformation)
+- `main.py` schedules `run_correction(video_id, clean, title, description)` as a FastAPI background task; the HTTP response is unchanged.
+- LangChain: `llm.get_chat_model()` returns `ChatGroq`; both calls are `ChatPromptTemplate | model.with_structured_output(<Pydantic>)`; windows run via `chain.batch(max_concurrency=4, return_exceptions=True)`. Tests inject a fake model exposing `with_structured_output`.
+- `context_card.py`: one call (title, description, chapters, transcript) → `ContextCard` summary + glossary. `windows.py`: cores of 40 captions with 5 read-only context captions each side. `correction.py`: per-window call returning `WindowCorrections` (only changed lines); guards reject ids outside the core, blank text, and changes under 0.6 similarity (spaces removed, case-insensitive).
+- Output `CorrectedContext`: same shape as `CleanContext`, each caption also has `raw_caption`. Times and count never change.
+- `jobs.py`: in-memory status per `video_id` (`pending` / `corrected` / `failed`); a failed job stores the uncorrected captions as the fallback. Lost on restart.
+- Model: env `GROQ_MODEL`, default `openai/gpt-oss-120b` (`llama-3.3-70b-versatile` is not available on this key). Key from `backend/groq_api.env`.
+- Chunking (next stage) is not built.
+
 ### `context_awarness/cleaning.py` (final output)
 `clean_context_pipeline(payload)` = `deserialize_video_context` → `extract_context` → `validation_and_transformation`.
 
@@ -129,7 +138,7 @@ Principle: the extension only **captures and forwards**. No parsing of captions,
 ---
 
 ## 5. Open items
-1. `background.js` expects `status` and `video_url` in the `/api/captions` response; the response has neither, so it returns early and `current_video_url` stays the raw URL (with `&t=`, `&list=`). Fix: have `background.js` read `video_id` / `videourl` from the new shape.
+1. ~~`background.js` response handling~~ fixed: it now reads `video_id` / `videourl` from the response.
 2. `total_duration` is the last caption's end. For the real video length, pass `videoDetails.lengthSeconds` from `inject.js` as an extra field. Chapters ending at the final caption would then be exact.
 3. `backend/plan.md` and `chrome-extension/spec.md` still describe older shapes and file names (`extracting.py`, `detail.body`, `title` on chapters, 2-arg vs 3-arg `dispatchCaptions`, missing `assets/tier*_flow.png`).
 4. Frame watcher is still a timer, not the specced dHash gate / settle check / 30 s rate limit / sequence numbers. `/api/frame-update` is a stub.

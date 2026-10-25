@@ -5,6 +5,8 @@ python-dotenv
 requests
 supabase
 groq
+langchain-core
+langchain-groq
 openai
 pgvector
 psycopg2-binary

@@ -1,9 +1,10 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import BackgroundTasks, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 from pydantic import BaseModel
 from typing import Optional, Dict, Any
 
+from context_awarness.caption_correction import run_correction
 from context_awarness.cleaning import clean_context_pipeline
 
 app = FastAPI(title="Simply Backend - Context Awareness")
@@ -51,9 +52,12 @@ class LiveFramePayload(BaseModel):
 
 @app.post("/api/captions")
 @app.post("/api/context")
-def receive_video_context(payload: VideoContextPayload) -> Dict[str, Any]:
+def receive_video_context(payload: VideoContextPayload, background_tasks: BackgroundTasks) -> Dict[str, Any]:
     try:
         cleaned_context = clean_context_pipeline(payload.model_dump())
+        background_tasks.add_task(
+            run_correction, cleaned_context["video_id"], cleaned_context, payload.title, payload.description
+        )
         return cleaned_context
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Context processing failed: {str(e)}")

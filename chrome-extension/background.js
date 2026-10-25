@@ -80,12 +80,12 @@ async function handleContextData(data) {
         return;
     }
 
-    if (!contextResult || contextResult.status !== 'success' || !contextResult.video_id) {
+    if (!contextResult || !contextResult.video_id) {
         return;
     }
 
     const videoId = contextResult.video_id;
-    const videoUrl = contextResult.video_url || data.videourl;
+    const videoUrl = contextResult.videourl || data.videourl;
 
     await chrome.storage.local.set({
         current_video_id: videoId,
