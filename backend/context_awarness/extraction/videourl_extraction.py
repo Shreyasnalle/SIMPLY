@@ -16,7 +16,7 @@ def _parse_time(time_value: str) -> float:
 
 def extract_videourl(videourl: str) -> Dict[str, Any]:
     if not isinstance(videourl, str) or not videourl.strip():
-        return {"videourl": "", "video_id": None, "canonical_url": "", "start_time": 0.0}
+        return {"videourl": "", "video_id": None, "start_time": 0.0}
 
     videourl = videourl.strip()
     parsed = urlparse(videourl)
@@ -42,12 +42,4 @@ def extract_videourl(videourl: str) -> Dict[str, Any]:
         if match:
             video_id = match.group(1)
 
-    canonical_url = (
-        f"https://www.youtube.com/watch?v={video_id}" if video_id else videourl
-    )
-    return {
-        "videourl": videourl,
-        "video_id": video_id,
-        "canonical_url": canonical_url,
-        "start_time": start_time,
-    }
+    return {"videourl": videourl, "video_id": video_id, "start_time": start_time}

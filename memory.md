@@ -77,11 +77,10 @@ Principle: the extension only **captures and forwards**. No parsing of captions,
 
 ### `context_awarness/extraction/` (parsing only; three field extractors + an orchestrator)
 
-**`videourl_extraction.extract_videourl(url)`** → `{ videourl, video_id, canonical_url, start_time }`
+**`videourl_extraction.extract_videourl(url)`** → `{ videourl, video_id, start_time }`
 - Handles `youtube.com/watch?v=`, `/embed/`, `/v/`, `youtu.be/`, and falls back to an 11-char id regex (`/live/`, `/shorts/`).
-- `canonical_url` = `https://www.youtube.com/watch?v=<id>`; extra params (`list`, `index`) dropped.
 - `start_time` (seconds) parsed from `t=`: supports `90`, `45s`, `1m5s`, `1h2m3s`, `1h`; garbage → `0.0`.
-- Empty/invalid URL → `{ videourl: "", video_id: None, canonical_url: "", start_time: 0.0 }`.
+- Empty/invalid URL → `{ videourl: "", video_id: None, start_time: 0.0 }`.
 
 **`description_extraction.extract_description(text)`** → `{ description, chapters }`
 - A chapter line is a line **starting** with `m:ss` or `h:mm:ss`, optionally preceded by bullets/brackets and followed by separators: `0:00 Intro`, `- 1:05 Setup`, `(3:00) Outro`, `[4:00] Q&A`, `2:10 - Closing`, `5:00: Wrap`.
@@ -90,11 +89,15 @@ Principle: the extension only **captures and forwards**. No parsing of captions,
 
 **`rawtext_extraction.extract_rawtext(raw)`** → `[{ text, start, end }]`
 - JSON3 (`events[].segs[].utf8`, `tStartMs`, `dDurationMs`, ms ÷ 1000), XML srv3 `<p t d>` (ms ÷ 1000), XML legacy `<text start dur>` (already seconds), plain-text lines (all `0.0`).
-- Text is HTML-unescaped and whitespace-normalized; events with empty text are skipped. Parse errors → `[]`.
+- Parsing only: text is exactly as in the source (no unescaping, whitespace cleanup, empty-text skipping, rounding or clamping). Parse errors → `[]`.
 
 **`extraction.extract_context(data)`** → `{ videourl: {…}, description: {…}, rawtext: [...], channel_name, title }`
-- `channel_name` = `channel_name` or, if empty, `channelname`.
+- Passes `channel_name` and `channelname` through untouched; no fallback logic.
 - Returns the parsed pieces as-is, with no noise filtering and no duration logic.
+
+### `context_awarness/validation_transformation/` (all cleanup lives here)
+- `validation.py`: raises `ValueError` without a `video_id`; drops captions that are blank, non-speech (`[Music]`/`[Applause]`), or have negative/NaN/backwards times; drops chapters with negative or duplicate starts.
+- `transformation.py`: HTML-unescape and whitespace-normalize text, strip `>>` speaker markers, round times to 3 dp, sort, merge consecutive duplicate captions, build the canonical URL, resolve `channel_name` or `channelname`, compute chapter ends. Output is a `CleanContext` (`schemas.py`).
 
 ### `context_awarness/cleaning.py` (final output)
 `clean_context_pipeline(payload)` = `deserialize_video_context` → `extract_context` → `validation_and_transformation`.
