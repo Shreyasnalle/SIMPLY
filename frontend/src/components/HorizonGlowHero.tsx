@@ -159,6 +159,11 @@ export function HorizonGlowHero({
 }: HorizonGlowHeroProps) {
   const sectionRef = React.useRef<HTMLElement>(null);
   const edgeId = React.useId();
+  const stickyRef = React.useRef<HTMLDivElement>(null);
+  const buttonRef = React.useRef<HTMLDivElement>(null);
+  // Height of the globe's visible cap, in px. Measured so the globe's top
+  // edge sits just below the Get Extension button at any viewport size.
+  const [cap, setCap] = React.useState<number | null>(null);
 
   // 0 → 1 as the section scrolls through.
   const progress = useMotionValue(0);
@@ -200,6 +205,26 @@ export function HorizonGlowHero({
     };
   }, [progress]);
 
+  useIsomorphicLayoutEffect(() => {
+    const container = stickyRef.current;
+    const button = buttonRef.current;
+    if (!container || !button) return;
+    const GAP = 40; // px between the button and the top of the globe
+    const measure = () => {
+      const c = container.getBoundingClientRect();
+      const b = button.getBoundingClientRect();
+      // offsetTop-style math is unaffected by the entrance transforms'
+      // opacity/blur; the sticky container is pinned so c.top is stable.
+      const buttonBottom = b.bottom - c.top;
+      setCap(Math.max(96, Math.round(c.height - buttonBottom - GAP)));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(container);
+    ro.observe(button);
+    return () => ro.disconnect();
+  }, []);
+
   /* timeline — each layer owns a slice of the scroll */
   const edgeOpacity = useStep(progress, [0, 0.2], [0, 1]);
   const haloOpacity = useStep(progress, [0.05, 0.45], [0, 1]);
@@ -232,6 +257,7 @@ export function HorizonGlowHero({
       className={cn("relative m-0 h-[250vh] w-full bg-background p-0", className)}
     >
       <div
+        ref={stickyRef}
         className="sticky top-0 m-0 h-svh min-h-[40rem] w-full overflow-hidden p-0"
         style={
           {
@@ -241,7 +267,7 @@ export function HorizonGlowHero({
             //   D = (W²/4 + h²) / h  with h = 0.2W  →  D = 1.45W
             containerType: "inline-size",
             "--orb": "160cqw",
-            "--cap": "22vh",
+            "--cap": cap === null ? "22vh" : `${cap}px`,
           } as React.CSSProperties
         }
       >
@@ -342,6 +368,7 @@ export function HorizonGlowHero({
 
             {/* Get Extension button present below the paragraph */}
             <motion.div
+              ref={buttonRef}
               style={{ opacity: titleOpacity, filter: titleFilter }}
               className="mt-7 flex items-center justify-center will-change-[filter,opacity]"
             >
