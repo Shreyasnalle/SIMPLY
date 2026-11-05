@@ -4,8 +4,6 @@ import { IconMenu2, IconX } from "@tabler/icons-react";
 import {
   motion,
   AnimatePresence,
-  useScroll,
-  useMotionValueEvent,
 } from "motion/react";
 
 import React, { useRef, useState } from "react";
@@ -51,21 +49,14 @@ interface MobileNavMenuProps {
 
 export const Navbar = ({ children, className }: NavbarProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollY } = useScroll();
-  const [visible, setVisible] = useState<boolean>(false);
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    if (latest > 100) {
-      setVisible(true);
-    } else {
-      setVisible(false);
-    }
-  });
+  // The navbar lives inside the hero (absolute, not fixed): it stays in its
+  // hero look and scrolls away together with the hero.
+  const visible = false;
 
   return (
     <motion.div
       ref={ref}
-      className={cn("fixed inset-x-0 top-0 z-50 w-full pt-10", className)}
+      className={cn("absolute inset-x-0 top-0 z-50 w-full pt-10", className)}
     >
       {React.Children.map(children, (child) =>
         React.isValidElement(child)
@@ -286,7 +277,7 @@ export const NavbarButton = ({
 export function ResizableNavbar() {
   const navItems = [
     { name: "Features", link: "#features" },
-    { name: "Working", link: "#pricing" },
+    { name: "Working", link: "#working" },
     { name: "Pricing", link: "#about" },
     { name: "Contact", link: "#contact" },
   ];

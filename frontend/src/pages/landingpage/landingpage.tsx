@@ -3,7 +3,8 @@ import Head from "next/head";
 import Navbar from "./Navbar";
 import Hero from "./Hero";
 import Features from "./Features";
-import Video from "./Video";
+import Working from "./Working";
+import HowItWorks from "./HowItWorks";
 import Pricing from "./Pricing";
 
 export default function LandingPage() {
@@ -20,7 +21,8 @@ export default function LandingPage() {
         <Navbar />
         <Hero className="h-svh" title="Learning should'nt need ten tabs" />
         <Features />
-        <Video />
+        <Working />
+        <HowItWorks />
         <Pricing />
       </main>
     </>

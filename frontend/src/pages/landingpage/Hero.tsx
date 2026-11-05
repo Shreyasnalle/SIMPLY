@@ -261,6 +261,12 @@ export function Hero({
         className="sticky top-0 m-0 h-svh min-h-[40rem] w-full overflow-hidden p-0"
         style={
           {
+            // Fade the whole scene (planet rim, hairlines, glow) out toward the
+            // bottom so the hero dissolves into the next section.
+            maskImage:
+              "linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%)",
             // Planet geometry, in cqw so it scales with the page width. A cap
             // of 20cqw with a diameter of 145cqw makes the circle pass through
             // the bottom-left and bottom-right corners exactly:
