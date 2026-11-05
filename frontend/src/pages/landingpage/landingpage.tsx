@@ -1,10 +1,10 @@
 import React from "react";
 import Head from "next/head";
-import Navbar from "./navbar/Navbar";
-import Hero from "./hero/Hero";
-import Features from "./features/Features";
-import Video from "./video/Video";
-import Pricing from "./pricing/Pricing";
+import Navbar from "./Navbar";
+import Hero from "./Hero";
+import Features from "./Features";
+import Video from "./Video";
+import Pricing from "./Pricing";
 
 export default function LandingPage() {
   return (
