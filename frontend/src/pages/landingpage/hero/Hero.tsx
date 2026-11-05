@@ -15,7 +15,7 @@ import { LiquidMetalButton } from "@/components/ui/liquid-metal-button";
 
 /* ── types ───────────────────────────────────────────────────── */
 
-export interface HorizonGlowHeroProps {
+export interface HeroProps {
   /** Small line above the headline. */
   eyebrow?: React.ReactNode;
   /** The headline. */
@@ -150,13 +150,13 @@ function Orb({
  * Honours `prefers-reduced-motion`: renders fully revealed, no streaks, no
  * scroll listener.
  */
-export function HorizonGlowHero({
+export function Hero({
   eyebrow,
   title,
   children,
   rimGradient = DEFAULT_RIM,
   className,
-}: HorizonGlowHeroProps) {
+}: HeroProps) {
   const sectionRef = React.useRef<HTMLElement>(null);
   const edgeId = React.useId();
   const stickyRef = React.useRef<HTMLDivElement>(null);
@@ -495,4 +495,4 @@ export function HorizonGlowHero({
   );
 }
 
-export default HorizonGlowHero;
+export default Hero;
