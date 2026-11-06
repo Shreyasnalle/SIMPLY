@@ -6,6 +6,7 @@ import Features from "./Features";
 import Working from "./Working";
 import HowItWorks from "./HowItWorks";
 import Pricing from "./Pricing";
+import Footer from "@/components/ui/footer";
 
 export default function LandingPage() {
   return (
@@ -24,6 +25,7 @@ export default function LandingPage() {
         <HowItWorks />
         <Features />
         <Pricing />
+        <Footer />
       </main>
     </>
   );
