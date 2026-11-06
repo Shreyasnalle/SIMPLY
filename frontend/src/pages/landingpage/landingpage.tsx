@@ -20,8 +20,8 @@ export default function LandingPage() {
       <main className="relative m-0 w-full min-h-screen bg-background p-0 overflow-x-hidden">
         <Navbar />
         <Hero className="h-svh" title="Learning should'nt need ten tabs" />
-        <Features />
         <Working />
+        <Features />
         <HowItWorks />
         <Pricing />
       </main>
