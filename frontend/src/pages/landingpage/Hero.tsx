@@ -369,7 +369,7 @@ export function Hero({
               style={{ opacity: titleOpacity, filter: titleFilter }}
               className="mt-5 max-w-2xl font-sans text-sm sm:text-base font-normal text-zinc-400 leading-relaxed will-change-[filter,opacity]"
             >
-              Simply provides an in-tab YouTube extension, specifically curated for educational purposes, with the capabilities to support theory, coding, math, diagrammatic video lectures, and live streams as well—more capable than YouTube&apos;s own video RAG.
+              Simply is an in-tab YouTube extension that lets you ask anything about a lecture by text or voice, search the web when the video falls short, and turn it into notes, decks, sheets and PDFs. Built for theory, coding, math and diagram-heavy videos, and live streams too.
             </motion.p>
 
             {/* Get Extension button present below the paragraph */}

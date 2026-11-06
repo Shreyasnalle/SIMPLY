@@ -3,6 +3,14 @@
 import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
+import {
+  AskVisual,
+  VoiceVisual,
+  WebVisual,
+  ExportVisual,
+  QuizVisual,
+  LevelVisual,
+} from "@/components/ui/feature-visuals";
 import { SectionHeader } from "@/components/ui/section-header";
 
 interface FeatureItem {
@@ -80,34 +88,34 @@ function FeatureMedia({
 
 const items: FeatureItem[] = [
   {
-    title: "Copy & paste components, instantly.",
-    alt: "Drop in fully-styled, accessible components with a single CLI command.",
-    content:
-      "https://cdn.21st.dev/assets/mirror/8c/8c4e18b6cde77ac53f3fa40ce7146594c03dd5fd0ebbd2adc9de141804a4d845.webm",
+    title: "Ask anything about the video.",
+    alt: "Answers come from the lecture itself, with timestamps you can click to jump straight to the moment.",
+    content: <AskVisual />,
   },
   {
-    title: "Install components & blocks via CLI.",
-    alt: "Run a single command to add any component directly into your codebase — no package to manage.",
-    content:
-      "https://cdn.21st.dev/assets/mirror/25/25228e9cefa50f9db3c28b77375e51fb15fc5975d98a6fbe23dbeeb9e068395d.webm",
+    title: "Type it or just say it.",
+    alt: "Use text or voice, and have answers read aloud. Study hands-free while you cook, commute or take notes.",
+    content: <VoiceVisual />,
   },
   {
-    title: "Tailwind-first styling you actually own.",
-    alt: "No black-box CSS. The source lives in your project — tweak anything, anytime.",
-    content:
-      "https://cdn.21st.dev/assets/localized/bd5e2be5d76b2e4f1612e70510357cf6865869dfed81859c4fd7b597ca38b9a6.png",
+    title: "Go beyond the video with web search.",
+    alt: "When the lecture doesn't cover it, Simply searches the web and keeps video and web sources clearly separate.",
+    content: <WebVisual />,
   },
   {
-    title: "Dark mode out of the box.",
-    alt: "Theme switching with CSS variables. Light, dark, or fully custom — zero extra work.",
-    content:
-      "https://cdn.21st.dev/assets/mirror/16/167a5626e0c8f3aa59c25b5dc3324a2d0178bbec206084a4375f5363e29ade5f.webm",
+    title: "Turn any lecture into docs, decks and sheets.",
+    alt: "Generate Word notes, PowerPoint decks, Excel sheets and PDF cheat sheets built only from that video.",
+    content: <ExportVisual />,
   },
   {
-    title: "Responsive by default, every time.",
-    alt: "Every component adapts seamlessly across mobile, tablet, and desktop — no extra work needed.",
-    content:
-      "https://cdn.21st.dev/assets/mirror/6e/6eae938226ca5a8c25295b2f1a8cfee3d7e96db1445e63bdc7eff68309f95036.webm",
+    title: "Quizzes and flashcards that make it stick.",
+    alt: "Chapter-end quizzes with explanations, plus spaced-repetition flashcards you can export to Anki.",
+    content: <QuizVisual />,
+  },
+  {
+    title: "Explained at your level.",
+    alt: "From 'like I'm 5' to expert. Simply remembers how you like things explained.",
+    content: <LevelVisual />,
   },
 ];
 
@@ -128,7 +136,7 @@ export default function FeaturesWithPanel() {
               align="left"
               eyebrow="Features"
               title="Everything you need to learn faster"
-              description="Pick a feature to see how Simply works inside your video tab."
+              description="YouTube is where the world learns. Simply turns any educational video into a tutor you can talk to and a study pack you can download."
               className="mb-10"
             />
 
