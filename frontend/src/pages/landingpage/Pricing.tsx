@@ -1,8 +1,8 @@
 import React from "react";
+import PricingSection from "@/components/ui/pricing";
 
-// TODO: build the pricing section content.
 export function Pricing() {
-  return <section id="pricing" className="w-full" />;
+  return <PricingSection />;
 }
 
 export default Pricing;
