@@ -21,8 +21,8 @@ export default function LandingPage() {
         <Navbar />
         <Hero className="h-svh" title="Learning should'nt need ten tabs" />
         <Working />
-        <Features />
         <HowItWorks />
+        <Features />
         <Pricing />
       </main>
     </>
