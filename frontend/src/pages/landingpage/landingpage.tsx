@@ -6,7 +6,7 @@ import Features from "./Features";
 import Working from "./Working";
 import HowItWorks from "./HowItWorks";
 import Pricing from "./Pricing";
-import Footer from "@/components/ui/footer";
+import BeamWordmarkFooter from "@/components/ui/beam-wordmark-footer";
 
 export default function LandingPage() {
   return (
@@ -25,7 +25,39 @@ export default function LandingPage() {
         <HowItWorks />
         <Features />
         <Pricing />
-        <Footer />
+        <BeamWordmarkFooter
+          brand="Simply"
+          company="Simply"
+          background="#09090b"
+          ink="#fafafa"
+          muted="#a1a1aa"
+          accent="#d4d4d8"
+          wordTop="#3f3f46"
+          wordFoot="#09090b"
+          fontSans="var(--font-sans)"
+          credits={[
+            { label: "Simply", tail: " is your AI video learning assistant." },
+            { lead: "Learn faster, ", label: "without the ten tabs" },
+          ]}
+          columns={[
+            {
+              title: "Our Product",
+              links: [
+                { label: "How it works", href: "#working" },
+                { label: "Features", href: "#features" },
+                { label: "Pricing", href: "#pricing" },
+              ],
+            },
+            {
+              title: "Company",
+              links: [
+                { label: "About Us", href: "#" },
+                { label: "FAQ", href: "#" },
+                { label: "Contact", href: "#" },
+              ],
+            },
+          ]}
+        />
       </main>
     </>
   );
