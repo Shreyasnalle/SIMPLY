@@ -3,6 +3,7 @@
 import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
+import { SectionHeader } from "@/components/ui/section-header";
 
 interface FeatureItem {
   title: string;
@@ -114,13 +115,20 @@ export default function FeaturesWithPanel() {
   const [active, setActive] = React.useState(0);
 
   return (
-    <section id="features" className="relative w-full py-24">
-      <div className="mx-auto max-w-6xl px-6">
+    <section
+      id="features"
+      className="relative w-full scroll-mt-24 bg-background py-24 sm:py-32"
+    >
+      <div className="mx-auto max-w-6xl px-4 sm:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-start lg:gap-16">
           <div>
-            <h2 className="mb-10 text-4xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl">
-              Features.
-            </h2>
+            <SectionHeader
+              align="left"
+              eyebrow="Features"
+              title="Everything you need to learn faster"
+              description="Pick a feature to see how Simply works inside your video tab."
+              className="mb-10"
+            />
 
             <ul className="flex flex-col gap-1">
               {items.map((item, index) => (
@@ -190,7 +198,7 @@ export default function FeaturesWithPanel() {
             </ul>
           </div>
 
-          <div className="sticky top-10 hidden lg:block">
+          <div className="sticky top-28 hidden lg:block">
             <Card className="aspect-[4/3] w-full">
               <AnimatePresence mode="wait">
                 <motion.div

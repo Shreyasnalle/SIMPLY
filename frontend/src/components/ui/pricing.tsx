@@ -6,6 +6,7 @@ import {
   PricingColumn,
   PricingColumnProps,
 } from "@/components/ui/pricing-utils/pricing-column";
+import { SectionHeader } from "@/components/ui/section-header";
 import { Section } from "@/components/ui/pricing-utils/section";
 
 interface PricingProps {
@@ -63,23 +64,16 @@ export default function Pricing({
 }: PricingProps) {
   return (
     <Section className={cn(className)}>
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-12">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-14">
         {(title || description) && (
-          <div className="flex flex-col items-center gap-4 px-4 text-center sm:gap-8">
-            {title && (
-              <h2 className="text-3xl font-semibold leading-tight text-foreground sm:text-5xl sm:leading-tight">
-                {title}
-              </h2>
-            )}
-            {description && (
-              <p className="max-w-[600px] text-base font-medium text-muted-foreground sm:text-xl">
-                {description}
-              </p>
-            )}
-          </div>
+          <SectionHeader
+            eyebrow="Pricing"
+            title={title || ""}
+            description={description || undefined}
+          />
         )}
         {plans !== false && plans.length > 0 && (
-          <div className="mx-auto grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mx-auto grid w-full max-w-md grid-cols-1 items-stretch gap-6 sm:max-w-none sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
             {plans.map((plan) => (
               <PricingColumn key={plan.name} {...plan} />
             ))}

@@ -276,9 +276,10 @@ export const NavbarButton = ({
 
 export function ResizableNavbar() {
   const navItems = [
+    { name: "Demo", link: "#working" },
+    { name: "How it works", link: "#how-it-works" },
     { name: "Features", link: "#features" },
-    { name: "Working", link: "#working" },
-    { name: "Pricing", link: "#about" },
+    { name: "Pricing", link: "#pricing" },
     { name: "Contact", link: "#contact" },
   ];
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

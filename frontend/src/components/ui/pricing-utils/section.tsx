@@ -11,7 +11,7 @@ export function Section({
   return (
     <section
       id="pricing"
-      className={cn("relative w-full bg-background px-4 py-24 sm:px-8", className)}
+      className={cn("relative w-full scroll-mt-24 bg-background px-4 py-24 sm:px-8 sm:py-32", className)}
     >
       {children}
     </section>
