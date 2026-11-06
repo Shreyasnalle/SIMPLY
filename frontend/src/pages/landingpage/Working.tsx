@@ -1,5 +1,6 @@
 import React from "react";
 import { SectionHeader } from "@/components/ui/section-header";
+import { Reveal } from "@/components/ui/reveal";
 
 // Replace with your demo video (file in /public, or an embed URL).
 const VIDEO_SRC = "/demo.mp4";
@@ -13,14 +14,16 @@ export function Working() {
       id="working"
       className="relative w-full scroll-mt-24 bg-background px-4 py-24 sm:px-8 sm:py-32"
     >
-      <div className="mx-auto max-w-5xl">
+      <div aria-hidden className="bg-grid-faint pointer-events-none absolute inset-0" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+      <div className="relative mx-auto max-w-5xl">
         <SectionHeader
           eyebrow="Demo"
           title="See Simply in action"
           description="What Simply offers and how to use it, in under two minutes."
         />
 
-        <div className="relative mt-14">
+        <Reveal delay={0.1} y={32} className="relative mt-14">
           {/* soft glow behind the player */}
           <div
             aria-hidden
@@ -50,7 +53,7 @@ export function Working() {
               )}
             </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

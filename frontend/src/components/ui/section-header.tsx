@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Reveal } from "@/components/ui/reveal";
 import { cn } from "@/lib/utils";
 
 /** Shared eyebrow + title + description block so every section lines up. */
@@ -17,6 +18,7 @@ export function SectionHeader({
 }) {
   const center = align === "center";
   return (
+    <Reveal>
     <div
       className={cn(
         "flex flex-col gap-4",
@@ -25,18 +27,19 @@ export function SectionHeader({
       )}
     >
       {eyebrow && (
-        <span className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+        <span className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
           {eyebrow}
         </span>
       )}
-      <h2 className="text-balance text-3xl font-semibold leading-[1.1] tracking-tight text-foreground sm:text-4xl md:text-5xl">
+      <h2 className="text-balance text-3xl font-semibold leading-[1.1] tracking-[-0.035em] text-foreground sm:text-4xl md:text-5xl">
         {title}
       </h2>
       {description && (
-        <p className="max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
+        <p className="max-w-2xl text-pretty text-base leading-[1.7] text-muted-foreground sm:text-lg">
           {description}
         </p>
       )}
     </div>
+    </Reveal>
   );
 }

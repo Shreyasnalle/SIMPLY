@@ -7,6 +7,7 @@ import {
   PricingColumnProps,
 } from "@/components/ui/pricing-utils/pricing-column";
 import { SectionHeader } from "@/components/ui/section-header";
+import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/pricing-utils/section";
 
 interface PricingProps {
@@ -63,8 +64,10 @@ export default function Pricing({
   className = "",
 }: PricingProps) {
   return (
-    <Section className={cn(className)}>
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-14">
+    <Section className={cn("overflow-hidden", className)}>
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+      <div aria-hidden className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[900px] -translate-x-1/2 bg-[radial-gradient(50%_50%_at_50%_0%,rgba(255,255,255,0.07),transparent_70%)]" />
+      <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-14">
         {(title || description) && (
           <SectionHeader
             eyebrow="Pricing"
@@ -74,8 +77,10 @@ export default function Pricing({
         )}
         {plans !== false && plans.length > 0 && (
           <div className="mx-auto grid w-full max-w-md grid-cols-1 items-stretch gap-6 sm:max-w-none sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-            {plans.map((plan) => (
-              <PricingColumn key={plan.name} {...plan} />
+            {plans.map((plan, i) => (
+              <Reveal key={plan.name} delay={i * 0.1} className={plan.className ?? "flex"}>
+                <PricingColumn {...plan} />
+              </Reveal>
             ))}
           </div>
         )}

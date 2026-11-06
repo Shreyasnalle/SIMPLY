@@ -119,7 +119,9 @@ export default function FeaturesWithPanel() {
       id="features"
       className="relative w-full scroll-mt-24 bg-background py-24 sm:py-32"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-8">
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+      <div aria-hidden className="pointer-events-none absolute right-0 top-1/4 h-[500px] w-[500px] rounded-full bg-[radial-gradient(closest-side,rgba(255,255,255,0.05),transparent)]" />
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-start lg:gap-16">
           <div>
             <SectionHeader
@@ -163,7 +165,7 @@ export default function FeaturesWithPanel() {
                     </span>
                     <span
                       className={cn(
-                        "text-sm font-medium transition-colors duration-200",
+                        "text-[15px] font-medium tracking-[-0.01em] transition-colors duration-200",
                         active === index
                           ? "text-foreground"
                           : "text-muted-foreground",
