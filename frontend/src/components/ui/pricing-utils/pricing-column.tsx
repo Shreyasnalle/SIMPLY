@@ -43,12 +43,31 @@ export function PricingColumn({
   return (
     <div
       className={cn(
-        "flex flex-col gap-6 rounded-2xl border p-6 text-card-foreground",
+        "relative flex flex-col gap-6 overflow-hidden rounded-2xl border p-6 text-card-foreground",
         cardVariants[variant],
         className,
       )}
     >
-      <div className="flex flex-col gap-2">
+      {variant === "glow-brand" && (
+        <>
+          {/* Spotlight: soft cone of light falling from the top edge */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 top-0 h-64"
+            style={{
+              background:
+                "radial-gradient(ellipse 70% 100% at 50% 0%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.08) 45%, transparent 75%)",
+            }}
+          />
+          {/* Bright core line at the top edge */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-0 h-px w-3/5 -translate-x-1/2 bg-gradient-to-r from-transparent via-white/70 to-transparent"
+          />
+        </>
+      )}
+
+      <div className="relative flex flex-col gap-2">
         <div className="flex items-center gap-2 text-lg font-semibold text-foreground">
           {icon}
           {name}
@@ -61,7 +80,7 @@ export function PricingColumn({
         <p className="text-sm text-muted-foreground">{description}</p>
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="relative flex flex-col gap-1">
         <div className="flex items-baseline gap-2">
           {originalPrice !== undefined && (
             <span className="text-lg text-muted-foreground line-through">
@@ -78,7 +97,7 @@ export function PricingColumn({
       <a
         href={cta.href}
         className={cn(
-          "inline-flex h-10 items-center justify-center rounded-lg px-4 text-sm font-medium transition-colors",
+          "relative inline-flex h-10 items-center justify-center rounded-lg px-4 text-sm font-medium transition-colors",
           cta.variant === "default"
             ? "bg-foreground text-background hover:bg-foreground/90"
             : "border border-white/20 bg-white/5 text-foreground hover:bg-white/10",
@@ -87,7 +106,7 @@ export function PricingColumn({
         {cta.label}
       </a>
 
-      <ul className="flex flex-col gap-2.5 border-t border-white/10 pt-6">
+      <ul className="relative flex flex-col gap-2.5 border-t border-white/10 pt-6">
         {features.map((feature) => (
           <li
             key={feature}
