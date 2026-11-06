@@ -25,16 +25,16 @@ export default function LandingPage() {
         <HowItWorks />
         <Features />
         <Pricing />
-        <div id="contact">
+        <div id="contact" className="border-t border-white/10">
         <BeamWordmarkFooter
           brand="Simply"
           company="Simply"
-          background="#09090b"
+          background="#0b0b10"
           ink="#fafafa"
-          muted="#a1a1aa"
-          accent="#d4d4d8"
-          wordTop="#3f3f46"
-          wordFoot="#09090b"
+          muted="#b4b4bd"
+          accent="#e4e4e7"
+          wordTop="#6b6b78"
+          wordFoot="#0b0b10"
           fontSans="var(--font-sans)"
           credits={[
             { label: "Simply", tail: " is your AI video learning assistant." },

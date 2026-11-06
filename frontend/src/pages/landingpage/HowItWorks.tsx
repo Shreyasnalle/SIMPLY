@@ -5,7 +5,7 @@ import InkOrbitFeatures from "@/components/ui/ink-orbit-features";
 // YouTube page -> extension -> backend cleaning -> AI caption correction.
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="w-full bg-background">
+    <section id="how-it-works" className="w-full border-t border-white/[0.07] bg-background">
       <InkOrbitFeatures
         theme="dark"
         bare

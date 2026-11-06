@@ -245,7 +245,7 @@ const CSS =
   ".bwf-soc svg{width:17px;height:17px}" +
   ".bwf-soc:hover,.bwf-soc:focus-visible{color:var(--bwf-ink);translate:0 -2px;background:linear-gradient(180deg,rgba(var(--bwf-acc),.32),rgba(var(--bwf-acc),.08));box-shadow:inset 0 0 0 1px rgba(var(--bwf-acc),.75),inset 0 1px 0 rgba(var(--bwf-ink-rgb),.3),0 10px 26px -8px rgba(var(--bwf-acc),.75)}" +
   ".bwf-soc:focus-visible{outline:none}" +
-  ".bwf-tip{position:absolute;z-index:5;left:50%;top:calc(100% + 9px);translate:-50% -4px;white-space:nowrap;font-size:11px;line-height:1;padding:6px 8px;border-radius:4px;background:rgba(var(--bwf-acc),.95);color:#fff;opacity:0;pointer-events:none;transition:opacity .2s,translate .25s}" +
+  ".bwf-tip{position:absolute;z-index:5;left:50%;top:calc(100% + 9px);translate:-50% -4px;white-space:nowrap;font-size:11px;line-height:1;padding:6px 8px;border-radius:4px;background:rgba(var(--bwf-acc),.95);color:#09090b;opacity:0;pointer-events:none;transition:opacity .2s,translate .25s}" +
   ".bwf-tip::after{content:'';position:absolute;left:50%;bottom:100%;margin-left:-4px;border:4px solid transparent;border-bottom-color:rgba(var(--bwf-acc),.95)}" +
   ".bwf-soc:hover .bwf-tip,.bwf-soc:focus-visible .bwf-tip{opacity:1;translate:-50% 0}" +
   // Credits.

@@ -125,12 +125,12 @@ export default function FeaturesWithPanel() {
   return (
     <section
       id="features"
-      className="relative w-full scroll-mt-24 bg-background py-24 sm:py-32"
+      className="relative w-full scroll-mt-24 overflow-hidden border-y border-white/[0.07] bg-[#0f0f13] py-24 sm:py-32"
     >
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+      <div aria-hidden className="bg-dots-faint pointer-events-none absolute inset-0" />
       <div aria-hidden className="pointer-events-none absolute right-0 top-1/4 h-[500px] w-[500px] rounded-full bg-[radial-gradient(closest-side,rgba(255,255,255,0.05),transparent)]" />
       <div className="relative mx-auto max-w-6xl px-4 sm:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-start lg:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div>
             <SectionHeader
               align="left"
@@ -208,7 +208,7 @@ export default function FeaturesWithPanel() {
             </ul>
           </div>
 
-          <div className="sticky top-28 hidden lg:block">
+          <div className="hidden lg:block">
             <Card className="aspect-[4/3] w-full">
               <AnimatePresence mode="wait">
                 <motion.div

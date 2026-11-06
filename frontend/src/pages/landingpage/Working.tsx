@@ -12,7 +12,7 @@ export function Working() {
   return (
     <section
       id="working"
-      className="relative w-full scroll-mt-24 bg-background px-4 py-24 sm:px-8 sm:py-32"
+      className="relative w-full scroll-mt-24 overflow-hidden bg-background px-4 py-24 sm:px-8 sm:py-32"
     >
       <div aria-hidden className="bg-grid-faint pointer-events-none absolute inset-0" />
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
