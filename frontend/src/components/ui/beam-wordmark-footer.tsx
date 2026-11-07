@@ -268,8 +268,8 @@ const CSS =
   // The wordmark. Each letter paints the section-sized background, shifted
   // back by its own offset, so beam and glow line up with the backdrop.
   ".bwf-word{position:relative;z-index:1;overflow:hidden;margin-top:clamp(28px,7cqw,96px)}" +
-  ".bwf-word-box{padding:0 clamp(20px,6cqw,88px);max-width:1120px;margin:0 auto;box-sizing:border-box}" +
-  ".bwf-word-in{display:inline-flex;white-space:nowrap;font-weight:var(--bwf-ww);line-height:1;letter-spacing:.06em;user-select:none;-webkit-user-select:none}" +
+  ".bwf-word-box{padding:0 clamp(20px,6cqw,88px);max-width:1120px;margin:0 auto;box-sizing:border-box;text-align:center}" +
+  ".bwf-word-in{display:inline-flex;white-space:nowrap;font-weight:var(--bwf-ww);line-height:1;letter-spacing:.015em;margin-right:-.015em;user-select:none;-webkit-user-select:none}" +
   ".bwf-lw{display:inline-block;translate:0 0;transition:translate 1.25s cubic-bezier(.16,.84,.2,1) var(--bwf-d,0ms)}" +
   ".bwf[data-in='false'] .bwf-lw{translate:0 85%}" +
   ".bwf-l{display:inline-block;cursor:pointer;color:transparent;-webkit-background-clip:text;background-clip:text;background-repeat:no-repeat;background-size:var(--bwf-rw) var(--bwf-rh);background-position:calc(var(--bwf-x) * -1) calc(var(--bwf-y) * -1);" +
@@ -341,7 +341,7 @@ export default function BeamWordmarkFooter({
     const fit = () => {
       const wb = inner.parentElement ?? box
       const pad = parseFloat(getComputedStyle(wb).paddingLeft) || 0
-      const target = wb.clientWidth - pad * 2
+      const target = (wb.clientWidth - pad * 2) * 0.72
       inner.style.fontSize = "100px"
       const measured = inner.offsetWidth
       setBase(measureBaseline(getComputedStyle(inner).fontFamily, wordWeight, word))

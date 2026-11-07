@@ -24,7 +24,7 @@ const cardVariants: Record<NonNullable<PricingColumnProps["variant"]>, string> =
   default: "border-white/10 bg-card",
   glow: "border-white/15 bg-card shadow-[0_0_40px_-12px_rgba(255,255,255,0.15)]",
   "glow-brand":
-    "border-white/30 bg-card shadow-[0_0_60px_-10px_rgba(255,255,255,0.3)]",
+    "border-white/25 bg-card",
 };
 
 export function PricingColumn({
