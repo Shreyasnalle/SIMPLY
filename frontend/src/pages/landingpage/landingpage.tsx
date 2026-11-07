@@ -22,13 +22,15 @@ export default function LandingPage() {
       <main className="relative m-0 w-full min-h-screen bg-background p-0 overflow-x-hidden">
         <Navbar />
         <Hero className="h-svh" title="Learning shouldn't need ten tabs" />
+        <div className="bg-stripes-side py-16 sm:py-24">
         <Working />
-        <RuleSpacer height={80} cells={2} />
+        <RuleSpacer height={80} />
         <HowItWorks />
-        <RuleSpacer height={80} cells={2} />
+        <RuleSpacer height={80} />
         <Features />
-        <RuleSpacer height={80} cells={2} />
+        <RuleSpacer height={80} />
         <Pricing />
+        </div>
         <div id="contact" className="border-t border-white/10">
         <BeamWordmarkFooter
           brand="Simply"

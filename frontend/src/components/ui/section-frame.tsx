@@ -27,7 +27,7 @@ export function SectionFrame({
 }
 
 /** Empty ruled row with vertical cell dividers, used as a breather between sections. */
-export function RuleSpacer({ cells = 3, height = 120 }: { cells?: number; height?: number }) {
+export function RuleSpacer({ cells = 1, height = 120 }: { cells?: number; height?: number }) {
   return (
     <div aria-hidden className="bg-stripes-side w-full"><div className="mx-auto w-full max-w-[1200px] px-6 lg:px-8">
       <div className="flex items-stretch border-x border-t border-white/10 bg-background" style={{ height }}>
