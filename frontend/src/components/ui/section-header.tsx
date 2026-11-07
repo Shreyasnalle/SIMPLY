@@ -19,27 +19,23 @@ export function SectionHeader({
   const center = align === "center";
   return (
     <Reveal>
-    <div
-      className={cn(
-        "flex flex-col gap-4",
-        center ? "items-center text-center" : "items-start text-left",
-        className,
-      )}
-    >
-      {eyebrow && (
-        <span className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
-          {eyebrow}
-        </span>
-      )}
-      <h2 className="text-balance text-3xl font-semibold leading-[1.1] tracking-[-0.035em] text-foreground sm:text-4xl md:text-5xl">
-        {title}
-      </h2>
-      {description && (
-        <p className="max-w-2xl text-pretty text-base leading-[1.7] text-muted-foreground sm:text-lg">
-          {description}
-        </p>
-      )}
-    </div>
+      <div
+        className={cn(
+          "flex flex-col gap-6 px-5 py-10 sm:px-8",
+          center ? "items-center text-center" : "items-start text-left",
+          className,
+        )}
+      >
+        <div className={cn("flex flex-col gap-2", center ? "items-center" : "items-start")}>
+          {eyebrow && <h2 className="text-sm font-medium leading-5 text-muted-foreground">{eyebrow}</h2>}
+          <h3 className="text-balance text-xl font-semibold leading-8 tracking-[-0.02em] text-foreground sm:text-2xl">
+            {title}
+          </h3>
+        </div>
+        {description && (
+          <p className="max-w-[800px] text-pretty text-base leading-6 text-muted-foreground">{description}</p>
+        )}
+      </div>
     </Reveal>
   );
 }
