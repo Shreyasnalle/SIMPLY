@@ -38,9 +38,9 @@ export default function LandingPage() {
           background="#09090b"
           ink="#fafafa"
           muted="#a1a1aa"
-          accent="#71717a"
-          wordTop="#2e2e36"
-          wordFoot="#09090b"
+          accent="#e4e4e7"
+          wordTop="#6b6b78"
+          wordFoot="#0b0b10"
           fontSans="var(--font-sans)"
           credits={[
             { label: "Simply", tail: " is your AI video learning assistant." },

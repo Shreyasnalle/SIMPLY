@@ -149,7 +149,7 @@ export default function FeaturesWithPanel() {
                   }}
                   onClick={() => setActive(index)}
                   className={cn(
-                    "relative flex cursor-pointer flex-col rounded-xl px-4 py-3.5 transition-all duration-200 lg:flex-row lg:items-center lg:gap-4",
+                    "flex cursor-pointer flex-col rounded-xl px-4 py-3.5 transition-all duration-200 lg:flex-row lg:items-center lg:gap-4",
                     active === index
                       ? "ring-1 ring-foreground"
                       : "ring-1 ring-transparent",
@@ -198,24 +198,22 @@ export default function FeaturesWithPanel() {
                       </motion.div>
                     )}
                   </AnimatePresence>
-                  <span
-                    aria-hidden
-                    className="pointer-events-none absolute inset-x-4 bottom-1 h-[2px] overflow-hidden rounded-full bg-white/[0.07]"
-                  >
-                    {active === index && (
-                      <motion.span
-                        key={"p" + active}
-                        className="block h-full origin-left rounded-full bg-foreground"
-                        initial={{ scaleX: 0 }}
-                        animate={{ scaleX: 1 }}
-                        transition={{ duration: DURATION, ease: "linear" }}
-                        onAnimationComplete={() => setActive((i) => (i + 1) % items.length)}
-                      />
-                    )}
-                  </span>
                 </motion.li>
               ))}
             </ul>
+            <div
+              aria-hidden
+              className="mt-5 h-[2px] w-full overflow-hidden rounded-full bg-white/[0.08]"
+            >
+              <motion.div
+                key={"p" + active}
+                className="h-full origin-left rounded-full bg-foreground"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: DURATION, ease: "linear" }}
+                onAnimationComplete={() => setActive((i) => (i + 1) % items.length)}
+              />
+            </div>
           </div>
 
           <div className="hidden lg:block">
