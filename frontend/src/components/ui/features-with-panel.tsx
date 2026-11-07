@@ -169,7 +169,7 @@ export default function FeaturesWithPanel() {
                     </span>
                     <span
                       className={cn(
-                        "text-[15px] font-medium tracking-[-0.01em] transition-colors duration-200",
+                        "text-lg font-medium tracking-[-0.01em] transition-colors duration-200",
                         active === index
                           ? "text-foreground"
                           : "text-muted-foreground",

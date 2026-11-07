@@ -27,13 +27,13 @@ export function SectionHeader({
         )}
       >
         <div className={cn("flex flex-col gap-2", center ? "items-center" : "items-start")}>
-          {eyebrow && <h2 className="text-sm font-medium leading-5 text-muted-foreground">{eyebrow}</h2>}
-          <h3 className="text-balance text-xl font-semibold leading-8 tracking-[-0.02em] text-foreground sm:text-2xl">
+          {eyebrow && <h2 className="text-base font-medium leading-6 text-muted-foreground sm:text-lg">{eyebrow}</h2>}
+          <h3 className="text-balance text-3xl font-semibold leading-[1.15] tracking-[-0.03em] text-foreground sm:text-4xl md:text-5xl">
             {title}
           </h3>
         </div>
         {description && (
-          <p className="max-w-[800px] text-pretty text-base leading-6 text-muted-foreground">{description}</p>
+          <p className="max-w-[800px] text-pretty text-lg leading-7 text-muted-foreground">{description}</p>
         )}
       </div>
     </Reveal>

@@ -68,7 +68,7 @@ export function PricingColumn({
       )}
 
       <div className="relative flex flex-col gap-2">
-        <div className="flex items-center gap-2 text-lg font-semibold text-foreground">
+        <div className="flex items-center gap-2 text-2xl font-semibold text-foreground">
           {icon}
           {name}
           {promotionText && (
@@ -77,7 +77,7 @@ export function PricingColumn({
             </span>
           )}
         </div>
-        <p className="text-sm text-muted-foreground">{description}</p>
+        <p className="text-base text-muted-foreground">{description}</p>
       </div>
 
       <div className="relative flex flex-col gap-1">
@@ -110,7 +110,7 @@ export function PricingColumn({
         {features.map((feature) => (
           <li
             key={feature}
-            className="flex items-start gap-2 text-sm text-muted-foreground"
+            className="flex items-start gap-2 text-base text-muted-foreground"
           >
             <Check className="mt-0.5 size-4 shrink-0 text-foreground" />
             {feature}

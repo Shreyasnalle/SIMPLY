@@ -35,12 +35,12 @@ export default function LandingPage() {
         <BeamWordmarkFooter
           brand="Simply"
           company="Simply"
-          background="#0b0b10"
+          background="#09090b"
           ink="#fafafa"
-          muted="#b4b4bd"
-          accent="#e4e4e7"
-          wordTop="#6b6b78"
-          wordFoot="#0b0b10"
+          muted="#a1a1aa"
+          accent="#71717a"
+          wordTop="#2e2e36"
+          wordFoot="#09090b"
           fontSans="var(--font-sans)"
           credits={[
             { label: "Simply", tail: " is your AI video learning assistant." },
