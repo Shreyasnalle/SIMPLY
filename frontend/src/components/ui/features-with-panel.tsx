@@ -12,6 +12,7 @@ import {
   LevelVisual,
 } from "@/components/ui/feature-visuals";
 import { SectionHeader } from "@/components/ui/section-header";
+import { SectionFrame } from "@/components/ui/section-frame";
 
 interface FeatureItem {
   title: string;
@@ -29,7 +30,7 @@ function Card({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-2xl border border-white/10 bg-card text-card-foreground",
+        "relative overflow-hidden rounded-xl border border-white/10 bg-card text-card-foreground",
         className,
       )}
     >
@@ -123,21 +124,16 @@ export default function FeaturesWithPanel() {
   const [active, setActive] = React.useState(0);
 
   return (
-    <section
-      id="features"
-      className="relative w-full scroll-mt-24 overflow-hidden border-y border-white/[0.07] bg-[#0f0f13] py-24 sm:py-32"
-    >
-      <div aria-hidden className="bg-dots-faint pointer-events-none absolute inset-0" />
-      <div aria-hidden className="pointer-events-none absolute right-0 top-1/4 h-[500px] w-[500px] rounded-full bg-[radial-gradient(closest-side,rgba(255,255,255,0.05),transparent)]" />
-      <div className="relative mx-auto max-w-6xl px-4 sm:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-center lg:gap-16">
+    <SectionFrame id="features">
+      <div className="px-5 pb-10 sm:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-center lg:gap-12">
           <div>
             <SectionHeader
               align="left"
               eyebrow="Features"
               title="Everything you need to learn faster"
               description="YouTube is where the world learns. Simply turns any educational video into a tutor you can talk to and a study pack you can download."
-              className="mb-10"
+              className="!px-0 !pb-6"
             />
 
             <ul className="flex flex-col gap-1">
@@ -229,6 +225,6 @@ export default function FeaturesWithPanel() {
           </div>
         </div>
       </div>
-    </section>
+    </SectionFrame>
   );
 }

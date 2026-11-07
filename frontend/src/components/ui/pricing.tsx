@@ -1,6 +1,5 @@
 import { User, Users } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 
 import {
   PricingColumn,
@@ -74,11 +73,8 @@ export default function Pricing({
   className = "",
 }: PricingProps) {
   return (
-    <Section className={cn("overflow-hidden", className)}>
-      <div aria-hidden className="bg-stripes-faint pointer-events-none absolute inset-0" />
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[420px] bg-[radial-gradient(60%_100%_at_50%_100%,rgba(255,255,255,0.07),transparent_70%)]" />
-      <div aria-hidden className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[900px] -translate-x-1/2 bg-[radial-gradient(50%_50%_at_50%_0%,rgba(255,255,255,0.07),transparent_70%)]" />
-      <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-14">
+    <Section className={className}>
+      <div className="relative flex flex-col items-center">
         {(title || description) && (
           <SectionHeader
             eyebrow="Pricing"
@@ -87,7 +83,7 @@ export default function Pricing({
           />
         )}
         {plans !== false && plans.length > 0 && (
-          <div className="mx-auto grid w-full max-w-md grid-cols-1 items-stretch gap-6 sm:max-w-none sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+          <div className="mx-auto grid w-full max-w-md grid-cols-1 items-stretch gap-6 px-5 pb-10 sm:max-w-none sm:grid-cols-2 sm:px-8 lg:grid-cols-3">
             {plans.map((plan, i) => (
               <Reveal key={plan.name} delay={i * 0.1} className={plan.className ?? "flex"}>
                 <PricingColumn {...plan} />

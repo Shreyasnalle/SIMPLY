@@ -1,5 +1,5 @@
 import * as React from "react";
-import { cn } from "@/lib/utils";
+import { SectionFrame } from "@/components/ui/section-frame";
 
 export function Section({
   className,
@@ -9,11 +9,8 @@ export function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section
-      id="pricing"
-      className={cn("relative w-full scroll-mt-24 bg-[#070709] px-4 py-24 sm:px-8 sm:py-32", className)}
-    >
+    <SectionFrame id="pricing" innerClassName={className}>
       {children}
-    </section>
+    </SectionFrame>
   );
 }

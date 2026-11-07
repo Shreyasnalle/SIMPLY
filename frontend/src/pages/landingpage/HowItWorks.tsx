@@ -1,11 +1,12 @@
 import React from "react";
+import { SectionFrame } from "@/components/ui/section-frame";
 import InkOrbitFeatures from "@/components/ui/ink-orbit-features";
 
 // How Simply works, told through the real pipeline:
 // YouTube page -> extension -> backend cleaning -> AI caption correction.
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="w-full border-t border-white/[0.07] bg-background">
+    <SectionFrame id="how-it-works">
       <InkOrbitFeatures
         theme="dark"
         bare
@@ -43,7 +44,7 @@ export function HowItWorks() {
             "An AI pass reads the title and summary of the video, then fixes mis-heard technical terms in the captions, so you get answers about what was actually taught.",
         }}
       />
-    </section>
+    </SectionFrame>
   );
 }
 

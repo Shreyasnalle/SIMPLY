@@ -681,8 +681,12 @@ const IB_CSS = `
 .ib-bento>.ib-frame{display:flex;flex-direction:column}
 .ib-bento>.ib-frame>.ib-card{flex:1}
 .ib-bare{background:none;padding:0}
-.ib-bare .ib-shell{max-width:1100px}
-.ib-bare .ib-sec{background:transparent;border:0;padding:clamp(24px,4cqw,56px) clamp(8px,2cqw,24px)}
+.ib-bare .ib-shell{max-width:none}
+.ib-bare .ib-head{gap:8px;margin-bottom:24px}
+.ib-bare .ib-tag{padding:0;border:0;background:none;font-size:14px;font-weight:500;letter-spacing:0;color:var(--ib-muted)}
+.ib-bare .ib-h2{font-size:clamp(20px,2.6cqw,24px);line-height:1.33;letter-spacing:-.02em;font-weight:600}
+.ib-bare .ib-card{border-radius:12px}
+.ib-bare .ib-sec{background:transparent;border:0;padding:40px clamp(20px,3cqw,32px)}
 .ib-bare .ib-wide{grid-column:1 / -1;width:100%;justify-self:stretch}
 @media (prefers-reduced-motion:reduce){
 .ib-reveal{opacity:1;transform:none;transition:none}
