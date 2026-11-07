@@ -145,3 +145,9 @@ html {
   -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 75%);
           mask-image: linear-gradient(180deg, #000 0%, transparent 75%);
 }
+
+/* light tilted parallel lines in the gutters beside the ruled column */
+.bg-stripes-side {
+  background-color: var(--background);
+  background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 10px);
+}

@@ -22,7 +22,6 @@ export default function LandingPage() {
       <main className="relative m-0 w-full min-h-screen bg-background p-0 overflow-x-hidden">
         <Navbar />
         <Hero className="h-svh" title="Learning shouldn't need ten tabs" />
-        <RuleSpacer />
         <Working />
         <RuleSpacer height={80} cells={2} />
         <HowItWorks />
@@ -30,7 +29,6 @@ export default function LandingPage() {
         <Features />
         <RuleSpacer height={80} cells={2} />
         <Pricing />
-        <RuleSpacer />
         <div id="contact" className="border-t border-white/10">
         <BeamWordmarkFooter
           brand="Simply"

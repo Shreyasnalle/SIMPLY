@@ -18,9 +18,9 @@ export function SectionFrame({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className={cn("relative w-full scroll-mt-24 bg-background", className)}>
-      <div className="mx-auto w-full max-w-[1080px] px-6 lg:px-8">
-        <div className={cn("border-x border-t border-white/10", innerClassName)}>{children}</div>
+    <section id={id} className={cn("relative w-full scroll-mt-24 bg-stripes-side", className)}>
+      <div className="mx-auto w-full max-w-[1200px] px-6 lg:px-8">
+        <div className={cn("border-x border-t border-white/10 bg-background", innerClassName)}>{children}</div>
       </div>
     </section>
   );
@@ -29,12 +29,12 @@ export function SectionFrame({
 /** Empty ruled row with vertical cell dividers, used as a breather between sections. */
 export function RuleSpacer({ cells = 3, height = 120 }: { cells?: number; height?: number }) {
   return (
-    <div aria-hidden className="mx-auto w-full max-w-[1080px] bg-background px-6 lg:px-8">
-      <div className="flex items-stretch border-x border-t border-white/10" style={{ height }}>
+    <div aria-hidden className="bg-stripes-side w-full"><div className="mx-auto w-full max-w-[1200px] px-6 lg:px-8">
+      <div className="flex items-stretch border-x border-t border-white/10 bg-background" style={{ height }}>
         {Array.from({ length: cells }).map((_, i) => (
           <div key={i} className={cn("flex-1", i < cells - 1 && "border-r border-white/10")} />
         ))}
       </div>
-    </div>
+    </div></div>
   );
 }
