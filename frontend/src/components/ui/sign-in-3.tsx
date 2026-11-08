@@ -25,7 +25,6 @@ type SocialProvider = {
 
 const providers: SocialProvider[] = [
   { label: "Google", icon: Icons.Google },
-  { label: "Apple", icon: Icons.Apple },
   { label: "GitHub", icon: Icons.GitHub },
 ];
 
@@ -36,9 +35,10 @@ export function SignIn() {
   return (
     <main
       aria-label="Sign in"
-      className="grid min-h-screen w-full grid-cols-1 bg-background text-foreground lg:grid-cols-2 lg:p-2"
+      className="flex min-h-screen w-full items-center justify-center bg-background text-foreground"
     >
-      <section className="flex flex-col items-center justify-center gap-6 px-4 py-12">
+      <div className="grid h-[80vh] w-[80vw] grid-cols-1 overflow-hidden rounded-[2rem] border border-border lg:grid-cols-2 lg:p-2">
+      <section className="flex flex-col items-center justify-center gap-6 overflow-y-auto px-4 py-6">
         <div className="flex max-w-sm flex-col items-center gap-4">
           <div className="relative flex size-14 items-center justify-center">
             <div className="absolute inset-0 scale-125 rounded-full bg-primary/10" />
@@ -133,6 +133,7 @@ export function SignIn() {
       </section>
 
       <AuthQuotePanel />
+      </div>
     </main>
   );
 }
