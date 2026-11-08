@@ -292,6 +292,7 @@ export function ResizableNavbar() {
         <NavItems items={navItems} />
         <div className="flex items-center gap-4">
           <NavbarButton
+            href="/login"
             variant="primary"
             className="!bg-white !text-black font-semibold rounded-full px-5 py-1.5 hover:!bg-zinc-200 transition-colors shadow-sm"
           >
@@ -326,6 +327,7 @@ export function ResizableNavbar() {
           ))}
           <div className="flex w-full flex-col gap-4">
             <NavbarButton
+              href="/login"
               onClick={() => setIsMobileMenuOpen(false)}
               variant="primary"
               className="w-full !bg-white !text-black font-semibold rounded-full py-2 hover:!bg-zinc-200 transition-colors shadow-sm"
