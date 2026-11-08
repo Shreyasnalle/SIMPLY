@@ -2,9 +2,9 @@
 
 import { useId, useState } from "react";
 import Link from "next/link";
-import { EyeIcon, EyeOffIcon, StarIcon, UserIcon } from "lucide-react";
+import { EyeIcon, EyeOffIcon, UserIcon } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/sign-in-3-utils/avatar";
+import { AuthQuotePanel } from "@/components/ui/auth-quote-panel";
 import { Button } from "@/components/ui/sign-in-3-utils/button";
 import { Checkbox } from "@/components/ui/sign-in-3-utils/checkbox";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/sign-in-3-utils/field";
@@ -119,47 +119,20 @@ export function SignIn() {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-x-1 text-sm text-muted-foreground">
-            <span>Not a member yet?</span>
+            <span>Don&apos;t have an account?</span>
             <Button
               variant="link"
               className="h-auto p-0"
               nativeButton={false}
               render={<Link href="/sign-up" />}
             >
-              Join now
+              Create account
             </Button>
           </div>
         </div>
       </section>
 
-      <div className="relative flex flex-col justify-end overflow-hidden rounded-[2rem] bg-muted p-12 max-lg:hidden">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-primary/25 via-primary/10 to-transparent" />
-        <div className="relative flex flex-col gap-6">
-          <div className="flex gap-0.5">
-            {[1, 2, 3, 4, 5].map((r) => (
-              <StarIcon key={r} aria-hidden="true" className="size-4 fill-primary text-primary" />
-            ))}
-          </div>
-          <p className="text-lg leading-relaxed">
-            &ldquo;Switching to this platform was the{" "}
-            <span className="font-medium text-primary">best decision</span> we made this year.
-            Onboarding took minutes, not days.&rdquo;
-          </p>
-          <div className="flex items-center gap-3">
-            <Avatar className="size-10">
-              <AvatarImage
-                src="https://cdn.21st.dev/assets/localized/b881fc6e5d91d95f912abd2f45508332c7a398d9dd53c136c6c0a2d500c8fc7e.png"
-                alt="Lee Robinson"
-              />
-              <AvatarFallback>L</AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="text-sm font-semibold">Lee Robinson</p>
-              <p className="text-xs text-muted-foreground">VP of Product</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <AuthQuotePanel />
     </main>
   );
 }
