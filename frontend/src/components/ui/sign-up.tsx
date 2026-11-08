@@ -4,6 +4,7 @@ import { useId, useState } from "react";
 import Link from "next/link";
 import { EyeIcon, EyeOffIcon, UserIcon } from "lucide-react";
 
+import { LineBackground } from "@/components/ui/line-background";
 import { AuthQuotePanel } from "@/components/ui/auth-quote-panel";
 import { Button } from "@/components/ui/sign-in-3-utils/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/sign-in-3-utils/field";
@@ -35,9 +36,10 @@ export function SignUp() {
   return (
     <main
       aria-label="Create account"
-      className="flex min-h-screen w-full items-center justify-center bg-background text-foreground"
+      className="relative flex min-h-screen w-full items-center justify-center bg-background text-foreground"
     >
-      <div className="grid h-[80vh] w-[80vw] grid-cols-1 overflow-hidden rounded-[2rem] border border-border lg:grid-cols-2 lg:p-2">
+      <LineBackground />
+      <div className="relative z-10 grid h-[80vh] w-[80vw] grid-cols-1 overflow-hidden rounded-[2rem] border border-border bg-background lg:grid-cols-2 lg:p-2">
       <section className="flex flex-col items-center justify-center gap-6 overflow-y-auto px-4 py-6">
         <div className="flex max-w-sm flex-col items-center gap-4">
           <div className="relative flex size-14 items-center justify-center">
