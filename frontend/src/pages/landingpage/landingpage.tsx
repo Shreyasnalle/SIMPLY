@@ -7,7 +7,7 @@ import Working from "./Working";
 import HowItWorks from "./HowItWorks";
 import Pricing from "./Pricing";
 import { RuleSpacer } from "@/components/ui/section-frame";
-import BeamWordmarkFooter from "@/components/ui/beam-wordmark-footer";
+import SiteFooter from "@/components/site-footer";
 
 export default function LandingPage() {
   return (
@@ -31,41 +31,7 @@ export default function LandingPage() {
         <RuleSpacer height={80} />
         <Pricing />
         </div>
-        <div id="contact" className="border-t border-white/10">
-        <BeamWordmarkFooter
-          brand="Simply"
-          company="Simply"
-          background="#040405"
-          ink="#fafafa"
-          muted="#a1a1aa"
-          accent="#e4e4e7"
-          wordTop="#6b6b78"
-          wordFoot="#040405"
-          fontSans="var(--font-sans)"
-          credits={[
-            { label: "Simply", tail: " is your AI video learning assistant." },
-            { lead: "Learn faster, ", label: "without the ten tabs" },
-          ]}
-          columns={[
-            {
-              title: "Our Product",
-              links: [
-                { label: "How it works", href: "#working" },
-                { label: "Features", href: "#features" },
-                { label: "Pricing", href: "#pricing" },
-              ],
-            },
-            {
-              title: "Company",
-              links: [
-                { label: "About Us", href: "#" },
-                { label: "FAQ", href: "#" },
-                { label: "Contact", href: "#" },
-              ],
-            },
-          ]}
-        />
-        </div>
+        <SiteFooter />
       </main>
     </>
   );
